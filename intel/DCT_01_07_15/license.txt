@@ -1,0 +1,12 @@
+DCT Sample 
+
+License Information Follows
+---------------------------
+* src\DCT.cpp, src\DCT.h
+* src\matrix.cpp, src\matrix.h
+* src\timer.cpp, src\timer.h
+* readme.html, Makefile, Build.bat
+
+Copyright 2011-2013 Intel Corporation
+
+* license: http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/  

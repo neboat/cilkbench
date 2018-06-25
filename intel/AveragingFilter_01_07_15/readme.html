@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+	::selection {
+		background: #b7ffb7;
+	}
+	::-moz-selection {
+		background: #b7ffb7;
+	}
+
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		width: 800px;
+		margin: 0 auto;
+	}
+	h1 {
+		text-align: center;
+		font-size: 36px;
+	}
+	.h3-alike {
+		display:inline;
+		font-size: 1.17em;
+		font-weight: bold;
+	}
+	pre {
+		font-family: "Consolas", Monaco, monospace;
+		font-size:small;
+		background: #fafafa;
+		margin: 0;
+        padding-left:20px;
+	}
+	code {
+		font-family: "Consolas", Monaco, monospace;
+	}
+
+    .code-block
+    {
+        padding-left:20px;
+    }
+	.changes {
+		margin: 1em 0;
+	}
+	.changes input:active {
+		position: relative;
+		top: 1px;
+	}
+	.changes input:hover:after {
+		padding-left: 16px;
+		font-size: 10px;
+		content: 'More';
+	}
+	.changes input:checked:hover:after {
+		content: 'Less';
+	}
+	.changes input ~ .show-hide {
+		display: none;
+	}
+	.changes input:checked ~ .show-hide {
+		display: block;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0.5em 0 0.5em 2.5em;
+	}
+	ul li {
+		margin-bottom: 3px;
+	}
+	ul li:last-child {
+		margin-bottom: 0;
+	}
+	.disc {
+		list-style-type:disc
+	}
+	.circ {
+		list-style-type:circ
+	}
+	
+	.single {
+		padding: 0 0.5em;
+	}
+	.specs {
+		border-collapse:collapse;
+	}
+	.specs td, .specs th {
+		font-size: 14px;
+	}
+	.specs td {
+		border: 1px solid black;
+	}
+	.specs td td, .specs td th {
+		border: none;
+	}
+	.specs	td, .specs td td, .specs td th {
+		padding: 0 0.2em 0.2em;
+		text-align: center;
+	}
+	.specs td tr:last-child td, 
+	.specs td tr:last-child th {
+		padding: 0 0.2em;
+	}
+	.serial-time {
+		width: 5.5em;
+	}
+	.modified-time {
+		width: 6.7em;
+	}
+	.compiler {
+	}
+	.comp-opt {
+	}
+	.sys-specs {
+	}
+	.organized-options td {
+		padding: 0 0.125em;
+	}
+	</style>
+	<!--[if lte IE 8]>
+	<style>
+	.changes input + .show-hide {
+		display: block;
+	}
+	.changes input {
+		display: none;
+	}
+	</style>
+	<![endif]-->
+	<title>Averaging Filter Sample</title>
+</head>
+
+<body>
+	<h1>Averaging Filter Sample</h1>
+	<p>An Averaging filter is a commonly used filter in the field of image processing and is mainly used for removing any noise in a given image. A noise in an image is any presence of pixel values which doesn’t blend well with the	actual content of photo like salt-pepper grains on an image. Averaging filter makes use of the concept that any given pixel value will not change drastically from its immediate neighbors. In other words, the current value of a pixel depends more on its immediate neighbors. Averaging filter size decides how many immediate neighbors are considered for the computation of the current pixel values. Most commonly used filter size 3x3.</p>
+	<p>This sample demonstrates how to increase the performance of Averaging filter using Intel(R) Cilk(TM) Plus. Both threading and SIMD solutions are explored in the performance tuning and their corresponding contributions in the speedup are evaluated.</p>
+	
+	<div class="changes">
+		<div class="h3-alike">System Requirements:</div> <input type="checkbox">
+		<ul class="disc show-hide">
+			<li>Hardware:
+				<ul class="circ">
+					<li>Any Intel processor with Intel® Advanced Vector Extensions (Intel® AVX) support like 2nd Generation Intel® Core™ i3, i5, or i7 processors and Intel® Xeon® E3 or E5 processor family, or newer</li>
+				</ul>
+			</li>
+			<li>For Microsoft Windows*:
+				<ul class="circ">
+					<li>Microsoft Visual Studio 2010* or 2012* standard edition or above</li>
+					<li>Intel® Parallel Studio XE 2015 Composer Edition (or higher) for C++ Windows*</li>
+				</ul>
+			</li>
+			<li>For Linux*:
+				<ul class="circ">
+					<li>GNU* GCC 4.5 or newer</li>
+					<li>Intel® Parallel Studio XE 2015 Composer Edition (or higher) for C++ Linux*</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<h3>Code Change Highlights:</h3>
+		Below are some snapshots of the code changes done in the application code to gain performance.
+	<div class="changes">
+		<code>cilk_for</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block"><strong>linear version (AveragingFilter.cpp, Line Number: 53):</strong>
+<pre>for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j++)
+		{
+			unsigned int red = 0, green = 0, blue = 0;
+			for(int k1 = (-1); k1 <= 1; k1++)
+			{
+				int pos = j + (k1 * resized_width);
+				for(int k2 = (-1); k2 <= 1; k2++)
+				{
+					red += resized_indataset[(pos + k2)].red;
+					green += resized_indataset[(pos + k2)].green;
+					blue += resized_indataset[(pos + k2)].blue;
+				}
+			}
+			resized_outdataset[j].red = red/9;
+			resized_outdataset[j].green = green/9;
+			resized_outdataset[j].blue = blue/9;
+		}
+	}</pre>
+			</div>
+			<div class="code-block"><strong><code>cilk_for</code> version (AveragingFilter.cpp, Line Number: 139):</strong>
+<pre>cilk_for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j++)
+		{
+			unsigned int red = 0, green = 0, blue = 0;
+			for(int k1 = (-1); k1 <= 1; k1++)
+			{
+				int pos = j + (k1 * resized_width);
+				for(int k2 = (-1); k2 <= 1; k2++)
+				{
+					red += resized_indataset[(pos + k2)].red;
+					green += resized_indataset[(pos + k2)].green;
+					blue += resized_indataset[(pos + k2)].blue;
+				}
+			}
+			resized_outdataset[j].red = red/9;
+			resized_outdataset[j].green = green/9;
+			resized_outdataset[j].blue = blue/9;
+		}
+	}</pre></div>
+		</div>
+	</div>
+	<div class="changes">
+		<code>Array Notation</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block"><strong>scalar version (AveragingFilter.cpp, Line Number: 53):</strong>
+<pre>for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j++)
+		{
+			unsigned int red = 0, green = 0, blue = 0;
+			for(int k1 = (-1); k1 <= 1; k1++)
+			{
+				int pos = j + (k1 * resized_width);
+				for(int k2 = (-1); k2 <= 1; k2++)
+				{
+					red += resized_indataset[(pos + k2)].red;
+					green += resized_indataset[(pos + k2)].green;
+					blue += resized_indataset[(pos + k2)].blue;
+				}
+			}
+			resized_outdataset[j].red = red/9;
+			resized_outdataset[j].green = green/9;
+			resized_outdataset[j].blue = blue/9;
+		}
+	}</pre>
+			</div>
+			<div class="code-block"><strong>array notation version (AveragingFilter.cpp, Line Number: 101):</strong>
+<pre>for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j+=8)
+		{
+			int row2index = 3*j - 3;
+			int jump = (resized_width * 3);
+			int row1index = row2index - jump;
+			int row3index = row2index + jump;
+			out[(row2index + 3):24] = (in[row1index:24] + in[row1index+3:24] + in[row1index+6:24] + in[row2index:24] + in[row2index+3:24] + in[row2index+6:24] + in[row3index:24] + in[row2index+3:24] + in[row2index+6:24])/9;
+		}
+	}</pre>
+			</div>
+		</div>			
+	</div>
+	<div class="changes">
+		<code>cilk_for</code> + <code>Array Notation</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block"><strong>scalar version (AveragingFilter.cpp, Line Number: 53):</strong>
+<pre>for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j++)
+		{
+			unsigned int red = 0, green = 0, blue = 0;
+			for(int k1 = (-1); k1 <= 1; k1++)
+			{
+				int pos = j + (k1 * resized_width);
+				for(int k2 = (-1); k2 <= 1; k2++)
+				{
+					red += resized_indataset[(pos + k2)].red;
+					green += resized_indataset[(pos + k2)].green;
+					blue += resized_indataset[(pos + k2)].blue;
+				}
+			}
+			resized_outdataset[j].red = red/9;
+			resized_outdataset[j].green = green/9;
+			resized_outdataset[j].blue = blue/9;
+		}
+	}</pre>
+			</div>
+			<div class="code-block"><strong>cilk_for + array notation version (AveragingFilter.cpp, Line Number: 186):</strong>
+<pre>cilk_for(int i = 1; i < (h+1); i++)
+	{
+		int x = ((resized_width * i) + 1);
+		for(int j = x; j < (x + w); j+=8)
+		{
+			int row2index = 3*j - 3;
+			int jump = (resized_width * 3);
+			int row1index = row2index - jump;
+			int row3index = row2index + jump;
+			out[(row2index + 3):24] = (in[row1index:24] + in[row1index+3:24] + in[row1index+6:24] + in[row2index:24] + in[row2index+3:24] + in[row2index+6:24] + in[row3index:24] + in[row2index+3:24] + in[row2index+6:24])/9;
+		}
+	}</pre>
+			</div>
+		</div>
+	</div>
+
+
+	<h3>Performance Data:</h3>
+	<p>Note: Modified Speedup shows performance speedup with respect to serial implementation.</p>
+	<table class="specs">
+		<tr>
+			<th class="modified-time">Modified fps</th>
+			<th class="compiler">Compiler (Intel® 64)</th>
+			<th class="comp-opt">Compiler options</th>
+			<th class="sys-specs">System specifications</th>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr><td>Array Notation: 1.72x</td></tr>
+					<tr><td>cilk_for: 2.53x</td></tr>
+					<tr><td>Both: 3.04x</td></tr>
+				</table>
+			</td>
+			<td>Intel C++ Compiler 15.0 for Windows</td>
+			<td>/Qrestrict /QxAVX /O2 /Qipo</td>
+			<td>
+				<table>
+					<tr><td>Windows Server 2012*</td></tr>
+					<tr><td>2nd Generation Intel Xeon&#174; E3 1280 CPU @ 3.50GHz</td></tr>
+					<tr><td>8GB memory</td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr><td>Array Notation: 1.43x</td></tr>
+					<tr><td>cilk_for: 1.90x</td></tr>
+					<tr><td>Both: 2.70x</td></tr>
+				</table>
+			</td>
+			<td>Intel C++ Compiler 15.0 for Linux</td>
+			<td>-restrict -xAVX -O2 -ipo</td>
+			<td>
+				<table>
+					<tr><td>Ubuntu* 10.04</td></tr>
+					<tr><td>3rd Generation Intel Core&#8482; i7-2600K CPU @ 3.40GHz</td></tr>
+					<tr><td>8GB memory</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+		
+	<h3>Build Instructions:</h3>
+	<div class="changes">For Visual Studio 2010* and 2012* users: <input type="checkbox">
+		<ul class="show-hide disc">
+            <li>Open the solution <code>.sln</code> file</li>
+			<li>[Optional] To collect performance numbers (will run example 5 times and take average time):
+				<ul class="circ">
+					<li>Project Properties -> C/C++ -> Preprocessor -> Preprocessor Definitions: add <code>PERF_NUM</code></li>
+				</ul>
+			</li>
+			<li>Choose a configuration (for best performance, choose a release configuration):
+				<ul class="circ">
+					<li>Intel-debug and Intel-release: uses Intel C++ compiler</li>
+					<li>VSC-debug and VSC-release: uses Visual C++ compiler (only linear/scalar will run)</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="changes">For Windows Command Line users: <input type="checkbox">
+		<ul class="show-hide disc">
+			<li>Enable your particular compiler environment</li>
+			<li>For Intel C++ Compiler:
+				<ul class="circ">
+					<li>Open the appropriate Intel C++ compiler command prompt</li>
+					<li>Navigate to project folder</li>
+					<li>Compile with <code>Build.bat [perf_num]</code>
+						<ul>
+							<li><code>perf_num</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>To run: <code>Build.bat run </code></li>
+				</ul>
+			</li>
+			<li>For Visual C++ Compiler (only linear/scalar will run): 
+				<ul class="circ">
+					<li>Ppen the appropriate Visual Studio 2010 or 2012 command prompt</li>
+					<li>Navigate to project folder</li>
+					<li>To compile: <code>Build.bat [perf_num]</code>
+						<ul>
+							<li><code>perf_num</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>To run: <code>Build.bat run</code></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="changes">For Linux*/OS X* users: <input type="checkbox">
+		<ul class="show-hide disc">
+			<li>Set the icc environment: <code>source &#60;icc-install-dir&#62;/bin/compilervars.sh {ia32|intel64}</code></li>
+			<li>Navigate to project folder</li>
+			<li>For Intel C++ compiler:
+				<ul class="circ">
+					<li>To compile: <code>make [icpc] [perf_num=1]</code>
+						<ul>
+							<li><code>perf_num=1</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>To run: <code>make run </code></li>
+				</ul>
+			</li>
+			<li>For gcc (only linear/scalar will run):
+				<ul class="circ">
+					<li>Compile with <code>make gcc [perf_num=1]</code>
+						<ul>
+							<li><code>perf_num=1</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>To run: <code>make run</code></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

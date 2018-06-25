@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<style>
+	::selection {
+		background: #b7ffb7;
+	}
+	::-moz-selection {
+		background: #b7ffb7;
+	}
+
+	body {
+		font-family: Arial, Helvetica, sans-serif;
+		font-size: 16px;
+		width: 800px;
+		margin: 0 auto;
+	}
+	h1 {
+		text-align: center;
+		font-size: 36px;
+	}
+	.h3-alike {
+		display:inline;
+		font-size: 1.17em;
+		font-weight: bold;
+	}
+	pre {
+		font-family: "Consolas", Monaco, monospace;
+		font-size:small;
+		background: #fafafa;
+		margin: 0;
+        padding-left:20px;
+	}
+	code {
+		font-family: "Consolas", Monaco, monospace;
+	}
+
+    .code-block
+    {
+        padding-left:20px;
+    }
+	.changes {
+		margin: 1em 0;
+	}
+	.changes input:active {
+		position: relative;
+		top: 1px;
+	}
+	.changes input:hover:after {
+		padding-left: 16px;
+		font-size: 10px;
+		content: 'More';
+	}
+	.changes input:checked:hover:after {
+		content: 'Less';
+	}
+	.changes input ~ .show-hide {
+		display: none;
+	}
+	.changes input:checked ~ .show-hide {
+		display: block;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0.5em 0 0.5em 2.5em;
+	}
+	ul li {
+		margin-bottom: 3px;
+	}
+	ul li:last-child {
+		margin-bottom: 0;
+	}
+	.disc {
+		list-style-type:disc
+	}
+	.circ {
+		list-style-type:circ
+	}
+	
+	.single {
+		padding: 0 0.5em;
+	}
+	.specs {
+		border-collapse:collapse;
+	}
+	.specs td, .specs th {
+		font-size: 14px;
+	}
+	.specs td {
+		border: 1px solid black;
+	}
+	.specs td td, .specs td th {
+		border: none;
+	}
+	.specs	td, .specs td td, .specs td th {
+		padding: 0 0.2em 0.2em;
+		text-align: center;
+	}
+	.specs td tr:last-child td, 
+	.specs td tr:last-child th {
+		padding: 0 0.2em;
+	}
+	.serial-time {
+		width: 5.5em;
+	}
+	.modified-time {
+		width: 6.7em;
+	}
+	.compiler {
+	}
+	.comp-opt {
+	}
+	.sys-specs {
+	}
+	.organized-options td {
+		padding: 0 0.125em;
+	}
+	</style>
+	<!--[if lte IE 8]>
+	<style>
+	.changes input + .show-hide {
+		display: block;
+	}
+	.changes input {
+		display: none;
+	}
+	</style>
+	<![endif]-->
+	<title>Discrete Cosine Transform Sample</title>
+</head>
+
+<body>
+	<h1>Discrete Cosine Transform Sample</h1>
+	<p>Discrete Cosine Transform(DCT) and Quantization are the first two steps in JPEG compression standard. This sample demonstrates how DCT and Quantizing stages can be implemented to run faster using Intel® Cilk™ Plus. In order to see the effect of quantization on the image, the output of Quantization phase is passed on to the de-quantizer followed by Inverse DCT and stored as an output image file. DCT is a lossy compression algorithm which is used to represent every data point value using infinite sum of cosine functions which are linearly orthogonal to each other. DCT is the first step of compression in the JPEG standard. The program shows the possible effect of quality reduction in the image when we do DCT followed by quantization like in JPEG compression. To visibly see the effects if any, the inverse operations (Dequantization and Inverse Discrete Cosine Transform (IDCT)) are done and output is saved as bitmap image. This sample uses a serial implementation of the 2D-DCT (Two Dimensional DCT) algorithm, Array Notation(AN) version of the algorithm for explicit vectorization and finally the cilk_for +Array Notation version which includes both threading and vectorization solution</p>
+	
+	<div class="changes">
+		<div class="h3-alike">System Requirements:</div> <input type="checkbox">
+		<ul class="disc show-hide">
+			<li>Hardware:
+				<ul class="circ">
+					<li>Any Intel processor with Intel® Advanced Vector Extensions (Intel® AVX) support like 2nd Generation Intel® Core™ i3, i5, or i7 processors and Intel® Xeon® E3 or E5 processor family, or newer</li>
+				</ul>
+			</li>
+			<li>For Microsoft Windows*:
+				<ul class="circ">
+					<li>Microsoft Visual Studio 2010* or 2012* standard edition or above</li>
+					<li>Intel® Parallel Studio XE 2015 Composer Edition (or higher) for C++ Windows*</li>
+				</ul>
+			</li>
+			<li>For Linux*:
+				<ul class="circ">
+					<li>GNU* GCC 4.5 or newer</li>
+					<li>Intel® Parallel Studio XE 2015 Composer Edition (or higher) for C++ Linux*</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	
+	<h3>Code Change Highlights:</h3>
+		Below are some snapshots of the code changes done in the application code to gain performance.
+	<div class="changes">
+		<code>cilk_for</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block"><strong>linear version (DCT.cpp, Line Number: 293):</strong>
+<pre>for(int i = 0; i < (size_of_image)/64; i++)
+{
+	startindex = (i * 64);
+	process_image_serial(indata, outdata, startindex);
+}</pre>
+			</div>
+			<div class="code-block"><strong><code>cilk_for</code> version (DCT.cpp, Line Number: 303):</strong>
+<pre>cilk_for(int i = 0; i < (size_of_image)/64; i++)
+{
+	startindex = (i * 64);
+	process_image_serial(indata, outdata, startindex);
+}</pre></div>
+		</div>
+	</div>
+	<div class="changes">
+		<code>Array Notation</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block"><strong>scalar version (matrix.cpp, Line Number: 81):</strong>
+<pre>matrix_serial matrix_serial::operator*(matrix_serial &y){
+	int size = y.row_size;
+	matrix_serial temp(size);
+	for(int i = 0; i < size; i++)
+	{
+		for(int j = 0; j < size; j++)
+		{
+			temp.ptr[(i * size) + j] = 0;
+			for(int k = 0; k < size; k++)
+				temp.ptr[(i * size) + j] += (ptr[(i * size) + k] * y.ptr[(k * size) + j]);
+		}
+	}
+	return temp;
+}</pre>
+			</div>
+			<div class="code-block"><strong>array notation version (matrix.cpp, Line Number: 17):</strong>
+<pre>matrix_AN matrix_AN::operator*(matrix_AN &y){
+	int size = row_size;
+	matrix_AN temp(size);
+	for(int i = 0; i < size; i++)
+	{
+		temp.ptr[(i * size):size] = 0;
+		for(int j = 0; j < size; j++)
+		{
+			temp.ptr[(i * size):size] = temp.ptr[(i * size):size] + (ptr[(i * size) + j] * y.ptr[(j * size):size]);
+		}
+	}
+	return temp;
+}</pre>
+			</div>
+		</div>			
+	</div>
+	<div class="changes">
+		<code>cilk_for</code> + <code>Array Notation</code> <input type="checkbox">
+		<div class="show-hide">
+			<div class="code-block">Combine <code>cilk_for</code> and <code>Array Notation</code> implementations as shown above to compute the DCT and IDCT of the image. The code for the same is in DCT.cpp at line number 321</div>
+		</div>
+	</div>
+
+
+	<h3>Performance Data:</h3>
+	<p>Note: Modified Speedup shows performance speedup with respect to serial implementation.</p>
+	<table class="specs">
+		<tr>
+			<th class="modified-time">Modified fps</th>
+			<th class="compiler">Compiler (Intel® 64)</th>
+			<th class="comp-opt">Compiler options</th>
+			<th class="sys-specs">System specifications</th>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr><td>AN: 2.05x</td></tr>
+					<tr><td>cilk_for: 4.37x</td></tr>
+					<tr><td>Both: 8.01x</td></tr>
+				</table>
+			</td>
+			<td>Intel C++ Compiler 15.0 for Windows</td>
+			<td>/O2 /Oi /fp:fast /QxAVX</td>
+			<td>
+				<table>
+					<tr><td>Windows Server 2012*</td></tr>
+					<tr><td>2nd Generation Intel Xeon&#174; E3 1280 CPU @ 3.50GHz</td></tr>
+					<tr><td>8GB memory</td></tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<td>
+				<table>
+					<tr><td>AN: 2.35x</td></tr>
+					<tr><td>cilk_for: 3.63x</td></tr>
+					<tr><td>Both: 8.53x</td></tr>
+				</table>
+			</td>
+			<td>Intel C++ Compiler 15.0 for Linux</td>
+			<td>-O2 -fp-model fast -xAVX</td>
+			<td>
+				<table>
+					<tr><td>Ubuntu* 10.04</td></tr>
+					<tr><td>3rd Generation Intel Core&#8482; i7-2600K CPU @ 3.40GHz</td></tr>
+					<tr><td>8GB memory</td></tr>
+				</table>
+			</td>
+		</tr>
+	</table>
+		
+	<h3>Build Instructions:</h3>
+	<div class="changes">For Visual Studio 2010* and 2012* users: <input type="checkbox">
+		<ul class="show-hide disc">
+            <li>Open the solution <code>.sln</code> file</li>
+			<li>[Optional] To collect performance numbers (will run example 5 times and take average time):
+				<ul class="circ">
+					<li>Project Properties -> C/C++ -> Preprocessor -> Preprocessor Definitions: add <code>PERF_NUM</code></li>
+				</ul>
+			</li>
+			<li>Choose a configuration (for best performance, choose a release configuration):
+				<ul class="circ">
+					<li>Intel-debug and Intel-release: uses Intel C++ compiler</li>
+					<li>VSC-debug and VSC-release: uses Visual C++ compiler (only linear/scalar will run)</li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="changes">For Windows Command Line users: <input type="checkbox">
+		<ul class="show-hide disc">
+			<li>Enable your particular compiler environment</li>
+			<li>for Intel C++ Compiler:
+				<ul class="circ">
+					<li>open the appropriate Intel C++ compiler command prompt</li>
+					<li>navigate to project folder</li>
+					<li>compile with <code>Build.bat [perf_num]</code>
+						<ul>
+							<li><code>perf_num</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>to run: <code>Build.bat run </code></li>
+				</ul>
+			</li>
+			<li>for Visual C++ Compiler (only linear/scalar will run): 
+				<ul class="circ">
+					<li>open the appropriate Visual Studio 2010 or 2012 command prompt</li>
+					<li>navigate to project folder</li>
+					<li>to compile: <code>Build.bat [perf_num]</code>
+						<ul>
+							<li><code>perf_num</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>to run: <code>Build.bat run</code></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+	<div class="changes">For Linux*/OS X* users: <input type="checkbox">
+		<ul class="show-hide disc">
+			<li>set the icc environment: <code>source &#60;icc-install-dir&#62;/bin/compilervars.sh {ia32|intel64}</code></li>
+			<li>navigate to project folder</li>
+			<li>for Intel C++ compiler:
+				<ul class="circ">
+					<li>to compile: <code>make [icpc] [perf_num=1]</code>
+						<ul>
+							<li><code>perf_num=1</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>to run: <code>make run </code></li>
+				</ul>
+			</li>
+			<li>for gcc (only linear/scalar will run):
+				<ul class="circ">
+					<li>compile with <code>make gcc [perf_num=1]</code>
+						<ul>
+							<li><code>perf_num=1</code>: collect performance numbers (will run example 5 times and take average time)</li>
+						</ul>
+					</li>
+					<li>to run: <code>make run</code></li>
+				</ul>
+			</li>
+		</ul>
+	</div>
+</body>
+</html>

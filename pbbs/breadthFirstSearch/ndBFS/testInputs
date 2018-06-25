@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+bnchmrk="BFS"
+benchmark="Breadth First Search"
+checkProgram="../common/BFSCheck"
+dataDir = "../graphData/data"
+
+tests = [
+    [1, "randLocalGraph_J_5_40000000", "", ""],
+    [1, "rMatGraph_J_5_40000000", "", ""],
+    [1, "3Dgrid_J_64400000", "", ""]
+    ]    
+
+small_tests = [
+    [1, "randLocalGraph_J_5_400000", "", ""],
+    [1, "rMatGraph_J_5_400000", "", ""],
+    [1, "3Dgrid_J_644000", "", ""]
+    ]    
+    
+import runTests
+if runTests.getOption("--small"):
+    runTests.timeAllArgs(bnchmrk, benchmark, checkProgram, dataDir, small_tests)
+else:
+    runTests.timeAllArgs(bnchmrk, benchmark, checkProgram, dataDir, tests)
+

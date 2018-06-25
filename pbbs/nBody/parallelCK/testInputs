@@ -1,0 +1,25 @@
+#!/usr/bin/python
+
+bnchmrk="nbody"
+benchmark="nBody"
+checkProgram="../common/nbodyCheck"
+dataDir = "../geometryData/data"
+
+tests = [
+    [1, "3DonSphere_1000000", "", ""],
+    [1, "3DinCube_1000000", "", ""],
+    [1, "3Dplummer_1000000", "", ""]
+    ]
+
+small_tests = [
+    [1, "3DonSphere_10000", "", ""],
+    [1, "3DinCube_10000", "", ""],
+    [1, "3Dplummer_10000", "", ""]
+    ]
+
+import runTests
+if runTests.getOption("--small"):
+    runTests.timeAllArgs(bnchmrk, benchmark, checkProgram, dataDir, small_tests)
+else:
+    runTests.timeAllArgs(bnchmrk, benchmark, checkProgram, dataDir, tests)
+

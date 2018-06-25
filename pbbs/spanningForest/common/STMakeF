@@ -1,0 +1,51 @@
+BNCHMRK = ST
+
+# generic toplevel common files needed by this and most timing code 
+GLOBAL_GENERIC = utils.h parseCommandLine.h IO.h cilk.h gettime.h sequence.h runTests.py 
+
+# toplevel common files needed by the timing code
+GLOBAL_TIME = graph.h graphIO.h $(GLOBAL_GENERIC)
+
+# ********************
+# BELOW HERE SHOULD BE GENERIC AMONG MOST BENCHMARKS THAT LINK
+# THE TIMING CODE WITH THE IMPLEMENTATION
+# ********************
+
+CHECK = $(BNCHMRK)Check
+TIME = $(BNCHMRK)Time
+
+# Make the benchmark, and make the output check code in the common directory
+all : $(BNCHMRK) testInputs runTest
+	cd ../common; make -s $(CHECK)
+
+# Files copied from toplevel common directory
+# The sort used to remove duplicates
+GLOBAL = $(sort $(GLOBAL_TIME) $(GLOBAL_REQUIRE))
+
+$(GLOBAL) :
+	ln -s ../../common/$@ .
+
+# Files copied from benchmark common directory
+BENCH_TIME = $(TIME).C $(BNCHMRK).h testInputs runTest
+
+$(BENCH_TIME) :
+	ln -s ../common/$@ .
+
+# Make all implementation objects
+%.o : %.C $(GLOBAL_REQUIRE)
+	$(PCC) $(PCFLAGS) $(COMP_FLAGS) -c $< -o $@
+
+# Make timing code object file
+$(TIME).o : $(TIME).C $(GLOBAL_TIME) $(BENCH_TIME)
+	$(PCC) $(PCFLAGS) -c $< -o $@
+
+# Make benchmark
+$(BNCHMRK) : $(TIME).o $(OBJS)
+	$(PCC) $(PLFLAGS) -o $@ $(TIME).o $(OBJS)
+
+clean :
+	rm -f $(BNCHMRK) *.o
+
+cleansrc :
+	make -s clean
+	rm -f $(GLOBAL) $(BENCH_TIME)

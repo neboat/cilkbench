@@ -1,0 +1,103 @@
+<html>
+<head>
+  <!--#include virtual="header.html" -->
+  <title>Problem Based Benchmark Suite : Dictionary</title>
+</head>
+
+<body>
+<!--#include virtual="navbar.html" -->
+<div class=center>
+
+<h2>Dictionary (DICT):</h2> 
+
+<p>
+This benchmark measures the performance of batch inserting, deleting and
+searching elements with a dictionary data structure.
+Each element
+  consists of a key and possibly auxiliary data and the implementation
+  must be based on the following three user supplied functions:
+<menu>
+<li> A hash function that maps each key to an unsigned integer,
+<li> a comparison function on the keys defining a total
+  order, and
+<li> a comparison function on the auxiliary data defining a partial order.
+</menu>
+The comparison function on the auxiliary data is used to decide which element to
+insert when multiple elements have the same key--a maximal value with respect to the
+partial order must be inserted.
+The specific benchmark batch inserts a sequence of values, then batch deletes
+another sequence of values, and finally batch searches a sequence of values.
+All three sequences can have repeated keys.
+The code must not take advantage of
+the specific key and auxiliary types beyond the hash and comparison function.
+</p>
+
+<h3>Input and Output File Formats</h3>
+
+<p>
+The input and output should be in the <a
+href="benchmarks/sequenceIO.html"><strong>sequence file format</strong></a>.  For testing
+the input sequence needs to be partitioned into three equal length
+parts, the first used for insertion, the second for deletions (after
+the insertions), and the third for searches (after the insertions and
+deletions).  If the input length is not divisible by 3, then the
+number of insertions and deletions need to be of length &lfloor;n/3&rfloor; and
+the remaining elements are searches.  Note that if the elements
+consist of both a key and auxiliary data, then the auxiliary data for
+the deletions and for the searches is ignored.  The output sequence
+consists of the results of all successful searches, including both the
+key and the auxiliary data.  The output sequence should be in the same
+order as the searches in the input sequence and any repeated
+successful searches should be included at each occurrence.
+</p>
+
+<h3>Default Input Distributions</h3>
+
+Each distribution should be run for <tt>n=10,000,000</tt>.  The weights
+used for average time are given in parentheses.
+<ul>
+  <li>
+(1) Unsigned integers generated uniformly at random in the
+  range [0:n).
+ <blockquote>
+<tt><a href="benchmarks/randomSeq.html">randomSeq</a> -t int &lt;n&gt; &lt;filename&gt;</tt>
+</blockquote>
+</li>
+
+<li>
+(1) Unsigned integers generated uniformly at random in the
+  range [0:100000).
+<blockquote>
+<tt><a href="benchmarks/randomSeq.html">randomSeq</a> -t int -r 100000 &lt;n&gt; &lt;filename&gt;</tt>
+</blockquote>
+</li>
+
+<li>
+(1) 32-bit unsigned integers generated at random 
+with repeats appearing in an exponential distribution.
+<blockquote>
+<tt><a href="benchmarks/exptSeq.html">exptSeq</a> -t int &lt;n&gt; &lt;filename&gt;</tt>
+</blockquote>
+</li>
+
+<li>
+(3) Strings from a tri-gram distribution.
+<blockquote>
+<tt><a href="benchmarks/trigramSeq.html">trigramSeq</a> &lt;n&gt; &lt;filename&gt;</tt>
+</blockquote>
+</li>
+
+<li>
+(3) Strings from a tri-gram distribution tagged with auxiliary 
+integers from the range [0:n).
+<blockquote>
+<tt><a href="benchmarks/trigramSeq.html">trigramSeq</a> &lt;n&gt; &lt;tmpname&gt;</tt><br>
+<tt><a href="benchmarks/addDataSeq.html">addDataSeq</a> -t int &lt;tmpname&gt; &lt;filename&gt;</tt>
+</blockquote>
+</li>
+</ul>
+
+</div>
+<!--#include virtual="footer.html" -->
+</body>
+<html>

@@ -1,0 +1,113 @@
+ifdef LONG
+INTT = -DLONG
+endif
+ifdef INT
+INTT = -DINT
+endif
+
+ifdef OPENMP
+PCC = g++
+PCFLAGS = -fopenmp -mcx16 -O3 -DOPENMP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -fopenmp $(SDSLLF)
+
+else ifdef ICC
+PCC = /opt/intel/bin/icpc
+PCFLAGS = -O2 -DCILKP $(INTT) $(SDSLCF)
+PLFLAGS = 
+
+else ifdef CCILK
+PCC = clang++
+PCFLAGS =  -fcilkplus -mcx16 -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS =  -ldl -fcilkplus $(SDSLLF)
+
+else ifdef GCILK
+PCC = g++
+PCFLAGS = -fcilkplus -mcx16 -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -ldl -fcilkplus $(SDSLLF)
+
+else ifdef GCILK11
+PCC = g++
+PCFLAGS = -std=c++11 -fcilkplus -mcx16 -march=native -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -ldl -fcilkplus $(SDSLLF)
+
+else ifdef OLDGCILK
+PCC = g++
+PCFLAGS = -lcilkrts -ldl -fcilkplus -mcx16 -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -lcilkrts -ldl -fcilkplus $(SDSLLF)
+
+else ifdef OLDCILK
+PCC = cilk++
+PCFLAGS = -O2 -DCILK -Wno-cilk-for $(INTT) $(SDSLCF)
+PLFLAGS = $(SDSLLF)
+
+else ifdef MKLROOT
+PCC = icpc
+PCFLAGS = -O3 -DCILKP $(INTT) $(SDSLCF)
+PLFLAGS = $(SDSLLF)
+
+else
+PCC = g++
+PLFLAGS = $(LFLAGS) $(SDSLLF)
+PCFLAGS = -O2 $(INTT) $(SDSLCF)
+endif
+
+
+
+SERIAL_FLAGS = # -Dcilk_for=for -Dcilk_spawn=  -Dcilk_sync=  -D_Cilk_for=for -D_Cilk_spawn=  -D_Cilk_sync=
+
+ifeq ($(SERIAL),1)
+PCFLAGS = -std=c++11 -mcx16 -march=native -O2 -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -ldl $(SDSLLF)
+TAPIR_CFLAGS = -DTAPIR -ffast-math -O3 $(SERIAL_FLAGS) $(EXTRA_CFLAGS)
+TAPIR_LFLAGS = $(EXTRA_LFLAGS)
+endif
+
+TAPIR_BASE ?= /data/compilers/tapir/src-master
+REF_BASE ?= /data/compilers/tapir/src-ref
+
+ifeq ($(DEBUG),1)
+TAPIR_BIN=$(TAPIR_BASE)/build-debug/bin
+REF_BIN=$(REF_BASE)/build-debug/bin
+else
+TAPIR_BIN=$(TAPIR_BASE)/build/bin
+REF_BIN=$(REF_BASE)/build/bin
+endif
+
+ifeq ($(GCC), 1)
+TAPIR_CC = g++
+TAPIR_CFLAGS += -fcilkplus
+TAPIR_LFLAGS = -fcilkplus
+else ifeq ($(ORIG),1)
+TAPIR_CC = $(TAPIR_BIN)/clang++
+TAPIR_CFLAGS +=
+TAPIR_LFLAGS =
+else ifeq ($(REF),1)
+TAPIR_CC = $(REF_BIN)/clang++
+TAPIR_CFLAGS += -DTAPIR -ffast-math -O3 $(EXTRA_CFLAGS) # -fdetach # -DPIR -fno-exceptions
+TAPIR_LFLAGS = $(EXTRA_LDFLAGS) # -fdetach
+else
+TAPIR_CC = $(TAPIR_BIN)/clang++
+TAPIR_CFLAGS += -DTAPIR -ffast-math -O3 $(EXTRA_CFLAGS) # -fcilkplus -ffast-math $(EXTRA_CFLAGS) # -Rpass=.* -Rpass-analysis=.*
+TAPIR_LFLAGS = $(EXTRA_LDFLAGS) # -fcilkplus $(EXTRA_LDFLAGS)
+endif
+
+# else
+
+# ifeq ($(REF),1)
+# TAPIR_CC = /data/compilers/tapir/src-ref/build/bin/clang++
+# TAPIR_CFLAGS = -fdetach -DPIR -fno-exceptions
+# TAPIR_LFLAGS = -fdetach
+# else
+# #TAPIR_CC = /data/compilers/tapir/src-upmerge/build/bin/clang++
+# TAPIR_CC = /data/compilers/tapir/src-nl-ppopp/build/bin/clang++
+# TAPIR_CFLAGS = -fcilkplus -DPIR -fno-exceptions
+# TAPIR_LFLAGS = -fcilkplus
+# endif
+
+# endif
+
+ifdef TAPIR
+PCC = $(TAPIR_CC)
+PCFLAGS += $(TAPIR_CFLAGS)
+PLFLAGS += $(TAPIR_LFLAGS)
+endif

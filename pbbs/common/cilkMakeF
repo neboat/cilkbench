@@ -1,0 +1,13 @@
+ifdef MKLROOT
+PCC = icpc
+PCFLAGS = -O3 -DCILKP
+PLFLAGS =
+else ifdef CILK
+PCC = cilk++
+PCFLAGS = -O2 -DCILK -Wno-cilk-for
+PLFLAGS =
+else
+PCC = g++
+PLFLAGS = $(LFLAGS)
+PCFLAGS = -O2
+endif
