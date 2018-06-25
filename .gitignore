@@ -4,6 +4,8 @@
 *Cilkscale*.txt
 *.o
 
+tmp/
+
 # Compiled benchmarks
 cilk5/cholesky
 cilk5/cilksort
@@ -15,6 +17,7 @@ cilk5/qsort
 cilk5/rectmul
 cilk5/strassen
 
+intel/*.tar.gz
 intel/*/release
 intel/Mandelbrot*/*.bmp
 
@@ -34,22 +37,23 @@ pbbs/rayCast/*/ray
 pbbs/removeDuplicates/*/remDups
 pbbs/spanningForest/*/ST
 pbbs/suffixArray/*/SA
-pbbs/testData/geometryData/data
+pbbs/testData/geometryData/data/*
 pbbs/testData/geometryData/addRays
 pbbs/testData/geometryData/plummer
 pbbs/testData/geometryData/uniform
-pbbs/testData/graphData/data
+pbbs/testData/graphData/data/*
 pbbs/testData/graphData/addWeights
 pbbs/testData/graphData/gridGraph
 pbbs/testData/graphData/maxFlowGens
 pbbs/testData/graphData/randLocalGraph
 pbbs/testData/graphData/rMatGraph
-pbbs/testData/sequenceData/data
+pbbs/testData/sequenceData/data/*
 pbbs/testData/sequenceData/addDataSeq
 pbbs/testData/sequenceData/exptSeq
 pbbs/testData/sequenceData/randomSeq
 pbbs/testData/sequenceData/trigramSeq
 pbbs/testData/sequenceData/trigramString
-!pbbs/testData/*/data/Makefile
 
-
+!pbbs/testData/geometryData/data/Makefile
+!pbbs/testData/graphData/data/Makefile
+!pbbs/testData/sequenceData/data/Makefile
