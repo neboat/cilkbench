@@ -57,3 +57,4 @@ pbbs/testData/sequenceData/trigramString
 !pbbs/testData/geometryData/data/Makefile
 !pbbs/testData/graphData/data/Makefile
 !pbbs/testData/sequenceData/data/Makefile
+!pbbs/testData/sequenceData/data/trigrams.txt
