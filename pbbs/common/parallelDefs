@@ -60,17 +60,17 @@ TAPIR_CFLAGS = -DTAPIR -ffast-math -O3 $(SERIAL_FLAGS) $(EXTRA_CFLAGS)
 TAPIR_LFLAGS = $(EXTRA_LDFLAGS)
 endif
 
-TAPIR_CC ?= clang++
+TAPIR_PCC ?= clang++
 
 ifeq ($(GCC), 1)
-TAPIR_CC = g++
+TAPIR_PCC = g++
 TAPIR_CFLAGS += -fcilkplus
 TAPIR_LFLAGS = -fcilkplus
 else ifeq ($(ORIG),1)
 TAPIR_CFLAGS +=
 TAPIR_LFLAGS =
 else ifeq ($(REF),1)
-TAPIR_CC = $(REF_CC)
+TAPIR_PCC = $(REF_CC)
 TAPIR_CFLAGS += -DTAPIR -ffast-math -O3 $(EXTRA_CFLAGS) # -DPIR -fno-exceptions
 TAPIR_LFLAGS += $(EXTRA_LDFLAGS)
 else
@@ -79,7 +79,7 @@ TAPIR_LFLAGS += $(EXTRA_LDFLAGS) # -fcilkplus $(EXTRA_LDFLAGS)
 endif
 
 ifdef TAPIR
-PCC = $(TAPIR_CC)
+PCC = $(TAPIR_PCC)
 PCFLAGS += $(TAPIR_CFLAGS)
 PLFLAGS += $(TAPIR_LFLAGS)
 endif

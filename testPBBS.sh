@@ -49,11 +49,11 @@ for Test in $ALLTESTS; do
 	    cd -
 	fi
 	case $Compiler in
-	    "tapir") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR;;
-	    "ref") REF_CC=$REF_PATH/clang++ make $DEBUG_STR REF=1;;
-	    "stapir") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR SERIAL=1; WORKERS="1";;
-	    "sref") REF_CC=$REF_PATH/clang++ make $DEBUG_STR REF=1 SERIAL=1; WORKERS="1";;
-	    "serial") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR ORIG=1 SERIAL=1; WORKERS="1";;
+	    "tapir") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR;;
+	    "ref") export TAPIR_PCC=$REF_PATH/clang++; make $DEBUG_STR REF=1;;
+	    "stapir") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR SERIAL=1; WORKERS="1";;
+	    "sref") export TAPIR_PCC=$REF_PATH/clang++; make $DEBUG_STR REF=1 SERIAL=1; WORKERS="1";;
+	    "serial") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR ORIG=1 SERIAL=1; WORKERS="1";;
 	    "gcc") make $DEBUG_STR GCC=1;;
 	    "sgcc") make $DEBUG_STR GCC=1 SERIAL=1; WORKERS="1";;
 	    *) echo "Unknown compiler $1"; exit 1;;
@@ -93,6 +93,7 @@ for Test in $ALLTESTS; do
 	    # CILK_NWORKERS=$P taskset -c 8-$(($P+7)) numactl -i all ./testInputs -x -r $NUMTRIALS -p $P
 	    
 	done
+	unsert TAPIR_PCC
 	echo "popd"
 	popd
     done
