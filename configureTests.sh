@@ -22,6 +22,9 @@ if [ ! -z $TAPIR_BASE ]; then
 	TAPIR_ROOT=$TAPIR_BASE/build-debug
 	REF_ROOT=$REF_BASE/build-debug
     fi
+fi
+
+if [ ! -z $TAPIR_ROOT ]; then
     TAPIR_PATH=$TAPIR_ROOT/bin
     REF_PATH=$REF_ROOT/bin
 
