@@ -1,0 +1,43 @@
+# taskset -c 1 ./dedup-cilk --nproc 1 -c -i ../../data/simmedium/media.dat -o cilk-1-simmedium.dat
+# taskset -c 0,1 ./dedup-cilk --nproc 2 -c -i ../../data/simmedium/media.dat -o cilk-2-simmedium.dat
+# taskset -c 0-3 ./dedup-cilk --nproc 4 -c -i ../../data/simmedium/media.dat -o cilk-4-simmedium.dat
+# taskset -c 0-7 ./dedup-cilk --nproc 8 -c -i ../../data/simmedium/media.dat -o cilk-8-simmedium.dat
+# taskset -c 0-11 ./dedup-cilk --nproc 12 -c -i ../../data/simmedium/media.dat -o cilk-12-simmedium.dat
+# taskset -c 0-15 ./dedup-cilk --nproc 16 -c -i ../../data/simmedium/media.dat -o cilk-16-simmedium.dat
+# taskset -c 1 ./dedup-cilk --nproc 1 -c -i ../../data/simlarge/media.dat -o cilk-1-simlarge.dat
+# taskset -c 0,1 ./dedup-cilk --nproc 2 -c -i ../../data/simlarge/media.dat -o cilk-2-simlarge.dat
+# taskset -c 0-3 ./dedup-cilk --nproc 4 -c -i ../../data/simlarge/media.dat -o cilk-4-simlarge.dat
+# taskset -c 0-7 ./dedup-cilk --nproc 8 -c -i ../../data/simlarge/media.dat -o cilk-8-simlarge.dat
+# taskset -c 0-11 ./dedup-cilk --nproc 12 -c -i ../../data/simlarge/media.dat -o cilk-12-simlarge.dat
+# taskset -c 0-15 ./dedup-cilk --nproc 16 -c -i ../../data/simlarge/media.dat -o cilk-16-simlarge.dat
+taskset -c 1 ./dedup-cilk-bw --nproc 2 -c -i ../../data/native/media.dat -o tmp.out
+taskset -c 0,1 ./dedup-cilk-bw --nproc 3 -c -i ../../data/native/media.dat -o tmp.out
+taskset -c 0-3 ./dedup-cilk-bw --nproc 5 -c -i ../../data/native/media.dat -o tmp.out 
+taskset -c 0-7 ./dedup-cilk-bw --nproc 9 -c -i ../../data/native/media.dat -o tmp.out 
+taskset -c 0-11 ./dedup-cilk-bw --nproc 13 -c -i ../../data/native/media.dat -o tmp.out
+taskset -c 0-15 ./dedup-cilk-bw --nproc 17 -c -i ../../data/native/media.dat -o tmp.out 
+
+# sudo taskset -c 1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 2 -c -i ../../data/simmedium/media.dat -o cilk-1-simmedium.dat
+# sudo taskset -c 0,1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 3 -c -i ../../data/simmedium/media.dat -o cilk-2-simmedium.dat
+# sudo taskset -c 0-3 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 5 -c -i ../../data/simmedium/media.dat -o cilk-4-simmedium.dat
+# sudo taskset -c 0-7 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 9 -c -i ../../data/simmedium/media.dat -o cilk-8-simmedium.dat
+# sudo taskset -c 0-11 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 13 -c -i ../../data/simmedium/media.dat -o cilk-12-simmedium.dat
+# sudo taskset -c 0-15 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 17 -c -i ../../data/simmedium/media.dat -o cilk-16-simmedium.dat
+# sudo taskset -c 1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 2 -c -i ../../data/simlarge/media.dat -o cilk-1-simlarge.dat
+# sudo taskset -c 0,1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 3 -c -i ../../data/simlarge/media.dat -o cilk-2-simlarge.dat
+# sudo taskset -c 0-3 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 5 -c -i ../../data/simlarge/media.dat -o cilk-4-simlarge.dat
+# sudo taskset -c 0-7 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 9 -c -i ../../data/simlarge/media.dat -o cilk-8-simlarge.dat
+# sudo taskset -c 0-11 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 13 -c -i ../../data/simlarge/media.dat -o cilk-12-simlarge.dat
+# sudo taskset -c 0-15 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 17 -c -i ../../data/simlarge/media.dat -o cilk-16-simlarge.dat
+# sudo taskset -c 1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 2 -c -i ../../data/native/media.dat -o cilk-1-native.dat
+# sudo taskset -c 0,1 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 3 -c -i ../../data/native/media.dat -o cilk-2-native.dat
+# sudo taskset -c 0-3 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 5 -c -i ../../data/native/media.dat -o cilk-4-native.dat
+# sudo taskset -c 0-7 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 9 -c -i ../../data/native/media.dat -o cilk-8-native.dat
+# sudo taskset -c 0-11 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 13 -c -i ../../data/native/media.dat -o cilk-12-native.dat
+# sudo taskset -c 0-15 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 17 -c -i ../../data/native/media.dat -o cilk-16-native.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --nproc 1 -c -i ../../data/simmedium/media.dat -o cilk-1-medium.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 1 -c -i ../../data/simmedium/media.dat -o cilk-1-medium.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --nproc 1 -c -i ../../data/simlarge/media.dat -o cilk-1-large.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 1 -c -i ../../data/simlarge/media.dat -o cilk-1-large.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --nproc 1 -c -i ../../data/native/media.dat -o cilk-1-native.dat
+# sudo taskset -c 0 ./dedup-cilk-bw --pipe-qsize-mult 10 --nproc 1 -c -i ../../data/native/media.dat -o cilk-1-native.dat

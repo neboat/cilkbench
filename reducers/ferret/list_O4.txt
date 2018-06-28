@@ -1,0 +1,99 @@
+# ./run.sh parsec3-tbb simlarge xxx 1 4
+# ./run.sh parsec3-tbb simlarge xxx 2 8
+# ./run.sh parsec3-tbb simlarge xxx 4 16
+# ./run.sh parsec3-tbb simlarge xxx 8 32
+# ./run.sh parsec3-tbb simlarge xxx 12 48
+# ./run.sh parsec3-tbb simlarge xxx 16 64
+
+./run.sh parsec3-tbb native xxx 1 4
+./run.sh parsec3-tbb native xxx 2 8
+./run.sh parsec3-tbb native xxx 4 16
+./run.sh parsec3-tbb native xxx 8 32
+./run.sh parsec3-tbb native xxx 12 48
+./run.sh parsec3-tbb native xxx 16 64
+
+# # for P = 1, try 1/5 - 1 (1)
+# taskset -c 1 ./run.sh pthreads simlarge xxx 1 4 
+# 
+# # for P = 2, try 2/5 - 2 (1, 2)`	
+# # taskset -c 0-1 ./run.sh pthreads simlarge xxx  1 4
+# taskset -c 0-1 ./run.sh pthreads simlarge xxx  2 8
+#  
+# # for P = 4, try 4/5 - 4 (1, 2, 4)
+# # taskset -c 0-3 ./run.sh pthreads simlarge xxx  1 4
+# # taskset -c 0-3 ./run.sh pthreads simlarge xxx  2 8
+# taskset -c 0-3 ./run.sh pthreads simlarge xxx  4 16
+# 
+# # for P = 8, try 8/5 - 8 (2, 4, 6, 8)
+# # taskset -c 0-7 ./run.sh pthreads simlarge xxx 2 8
+# # taskset -c 0-7 ./run.sh pthreads simlarge xxx 4 16
+# taskset -c 0-7 ./run.sh pthreads simlarge xxx 6 24
+# # taskset -c 0-7 ./run.sh pthreads simlarge xxx 8 32
+# 
+# # for P = 12, try 12/5 - 12 (3, 4, 6, 8, 12)
+# # taskset -c 0-11 ./run.sh pthreads simlarge xxx  3 12
+# # taskset -c 0-11 ./run.sh pthreads simlarge xxx  4 16
+# # taskset -c 0-11 ./run.sh pthreads simlarge xxx  6 24
+# # taskset -c 0-11 ./run.sh pthreads simlarge xxx  8 32
+# taskset -c 0-11 ./run.sh pthreads simlarge xxx  12 48
+# 
+# # for P = 16, try 16/5 - 16 (4, 6, 8, 10, 12, 14, 16)
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  4 16
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  6 24
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  8 32
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  10 40
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  12 48
+# taskset -c 0-15 ./run.sh pthreads simlarge xxx  14 56
+# # taskset -c 0-15 ./run.sh pthreads simlarge xxx  16 64
+
+# # for P = 1, try 1/5 - 1 (1)
+# taskset -c 1 ./run.sh pthreads native xxx 1 4 
+# 
+# # for P = 2, try 2/5 - 2 (1, 2)`	
+# # taskset -c 0-1 ./run.sh pthreads native xxx  1 4
+# taskset -c 0-1 ./run.sh pthreads native xxx  2 8
+#  
+# # for P = 4, try 4/5 - 4 (1, 2, 4)
+# # taskset -c 0-3 ./run.sh pthreads native xxx  1 4
+# # taskset -c 0-3 ./run.sh pthreads native xxx  2 8
+# taskset -c 0-3 ./run.sh pthreads native xxx  4 16
+# 
+# # for P = 8, try 8/5 - 8 (2, 4, 6, 8)
+# # taskset -c 0-7 ./run.sh pthreads native xxx 2 8
+# # taskset -c 0-7 ./run.sh pthreads native xxx 4 16
+# taskset -c 0-7 ./run.sh pthreads native xxx 6 24
+# # taskset -c 0-7 ./run.sh pthreads native xxx 8 32
+# 
+# # for P = 12, try 12/5 - 12 (3, 4, 6, 8, 12)
+# # taskset -c 0-11 ./run.sh pthreads native xxx  3 12
+# # taskset -c 0-11 ./run.sh pthreads native xxx  4 16
+# # taskset -c 0-11 ./run.sh pthreads native xxx  6 24
+# taskset -c 0-11 ./run.sh pthreads native xxx  8 32
+# # taskset -c 0-11 ./run.sh pthreads native xxx  12 48
+# 
+# # for P = 16, try 16/5 - 16 (4, 6, 8, 10, 12, 14, 16)
+# # taskset -c 0-15 ./run.sh pthreads native xxx  4 16
+# # taskset -c 0-15 ./run.sh pthreads native xxx  6 24
+# # taskset -c 0-15 ./run.sh pthreads native xxx  8 32
+# # taskset -c 0-15 ./run.sh pthreads native xxx  10 40
+# taskset -c 0-15 ./run.sh pthreads native xxx  12 48
+# # taskset -c 0-15 ./run.sh pthreads native xxx  14 56
+# # taskset -c 0-15 ./run.sh pthreads native xxx  16 64
+
+# ./run.sh cilk simlarge xxx 1 4
+# ./run.sh cilk simlarge xxx 2 8
+# ./run.sh cilk simlarge xxx 4 16
+# ./run.sh cilk simlarge xxx 8 32
+# ./run.sh cilk simlarge xxx 12 48
+# ./run.sh cilk simlarge xxx 16 64
+
+./run.sh cilk native xxx 1 4
+./run.sh cilk native xxx 2 8 
+./run.sh cilk native xxx 4 16
+./run.sh cilk native xxx 8 32
+./run.sh cilk native xxx 12 48
+./run.sh cilk native xxx 16 64
+
+# ./run.sh serial simlarge xxx 1
+./run.sh serial native xxx 1
+

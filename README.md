@@ -37,6 +37,18 @@ To run one or more PBBS benchmarks, specify the paths to these benchmark directo
 
     bash ./testPBBS.sh pbbs/maximalIndependentSet/ndMIS
 
+### Reducer benchmarks
+
+The `reducers` directory includes large Cilk benchmarks that use reducers.  Currently there are two such benchmarks: `ferret` and `dedup`.  These benchmarks are Cilk versions of the PARSEC benchmarks of the same names.  You can run these benchmarks using the `testReducers.sh` script as follows:
+
+    bash ./testReducers.sh dedup ferret
+
+### MiniFE
+
+The `miniFE` directory contains a Cilk implementation of a simple finite elements application, from https://mantevo.org/downloads/miniFE_2.0.1.html.  You can compile and run this program as follows:
+
+    bash ./testMiniFE.sh
+
 ## Configuration
 
 In general, all scripts can be configured using a the same environment variables and command-line arguments.  Here is a quick overview of the most common ways to reconfigure the scripts.

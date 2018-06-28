@@ -1,0 +1,14 @@
+tmp.txt
+src/cilk/tmp.out
+src/cilk/tmp.txt
+src/cilk/dedup-cilk-bw
+src/cilk/*timing*.out
+src/parsec3/build
+src/parsec3/tmp.out
+src/parsec3/tmp.txt
+src/parsec3/*timing*.out
+src/piper/dedup-cilkview
+src/piper/dedup-cilkview.cvdata
+src/piper/*.out
+src/piper/pipe_ws.py
+tmp.out

@@ -1,0 +1,109 @@
+#
+# for P = 2, try 2/5 - 2 (1, 2)
+taskset -c 0-1 ./run.sh pthreads native tmp.out 1
+taskset -c 0-1 ./run.sh pthreads native tmp.out 2
+taskset -c 0-1 ./run.sh pthreads native tmp.out 1 8
+taskset -c 0-1 ./run.sh pthreads native tmp.out 2 8
+#
+# for P = 4, try 4/5 - 4 (1, 2, 4)
+taskset -c 0-3 ./run.sh pthreads native tmp.out 1
+taskset -c 0-3 ./run.sh pthreads native tmp.out 2
+taskset -c 0-3 ./run.sh pthreads native tmp.out 4
+taskset -c 0-3 ./run.sh pthreads native tmp.out 1 16
+taskset -c 0-3 ./run.sh pthreads native tmp.out 2 16
+taskset -c 0-3 ./run.sh pthreads native tmp.out 4 16
+#
+# for P = 8, try 8/5 - 8 (2, 4, 6, 8)
+taskset -c 0-7 ./run.sh pthreads native tmp.out 2
+taskset -c 0-7 ./run.sh pthreads native tmp.out 4
+taskset -c 0-7 ./run.sh pthreads native tmp.out 6
+taskset -c 0-7 ./run.sh pthreads native tmp.out 8
+taskset -c 0-7 ./run.sh pthreads native tmp.out 2 32
+taskset -c 0-7 ./run.sh pthreads native tmp.out 4 32
+taskset -c 0-7 ./run.sh pthreads native tmp.out 6 32
+taskset -c 0-7 ./run.sh pthreads native tmp.out 8 32
+#
+# for P = 12, try 12/5 - 12 (3, 4, 6, 8, 12)
+taskset -c 0-11 ./run.sh pthreads native tmp.out 3
+taskset -c 0-11 ./run.sh pthreads native tmp.out 4
+taskset -c 0-11 ./run.sh pthreads native tmp.out 6
+taskset -c 0-11 ./run.sh pthreads native tmp.out 8
+taskset -c 0-11 ./run.sh pthreads native tmp.out 12
+taskset -c 0-11 ./run.sh pthreads native tmp.out 3 48
+taskset -c 0-11 ./run.sh pthreads native tmp.out 4 48
+taskset -c 0-11 ./run.sh pthreads native tmp.out 6 48
+taskset -c 0-11 ./run.sh pthreads native tmp.out 8 48
+taskset -c 0-11 ./run.sh pthreads native tmp.out 12 48
+#
+# for P = 16, try 16/5 - 16 (3, 4, 6, 8, 10, 12, 14, 16)
+taskset -c 0-15 ./run.sh pthreads native tmp.out 3
+taskset -c 0-15 ./run.sh pthreads native tmp.out 4
+taskset -c 0-15 ./run.sh pthreads native tmp.out 6
+taskset -c 0-15 ./run.sh pthreads native tmp.out 8
+taskset -c 0-15 ./run.sh pthreads native tmp.out 10 
+taskset -c 0-15 ./run.sh pthreads native tmp.out 12 
+taskset -c 0-15 ./run.sh pthreads native tmp.out 14 
+taskset -c 0-15 ./run.sh pthreads native tmp.out 16 
+taskset -c 0-15 ./run.sh pthreads native tmp.out 3 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 4 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 6 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 8 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 10 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 12 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 14 64
+taskset -c 0-15 ./run.sh pthreads native tmp.out 16 64
+#
+# for P = 2, try 2/5 - 2 (1, 2)
+taskset -c 0-1 ./run.sh pthreads large tmp.out 1
+taskset -c 0-1 ./run.sh pthreads large tmp.out 2
+taskset -c 0-1 ./run.sh pthreads large tmp.out 1 8
+taskset -c 0-1 ./run.sh pthreads large tmp.out 2 8
+#
+# for P = 4, try 4/5 - 4 (1, 2, 4)
+taskset -c 0-3 ./run.sh pthreads large tmp.out 1
+taskset -c 0-3 ./run.sh pthreads large tmp.out 2
+taskset -c 0-3 ./run.sh pthreads large tmp.out 4
+taskset -c 0-3 ./run.sh pthreads large tmp.out 1 16
+taskset -c 0-3 ./run.sh pthreads large tmp.out 2 16
+taskset -c 0-3 ./run.sh pthreads large tmp.out 4 16
+#
+# for P = 8, try 8/5 - 8 (2, 4, 6, 8)
+taskset -c 0-7 ./run.sh pthreads large tmp.out 2
+taskset -c 0-7 ./run.sh pthreads large tmp.out 4
+taskset -c 0-7 ./run.sh pthreads large tmp.out 6
+taskset -c 0-7 ./run.sh pthreads large tmp.out 8
+taskset -c 0-7 ./run.sh pthreads large tmp.out 2 32
+taskset -c 0-7 ./run.sh pthreads large tmp.out 4 32
+taskset -c 0-7 ./run.sh pthreads large tmp.out 6 32
+taskset -c 0-7 ./run.sh pthreads large tmp.out 8 32
+#
+# for P = 12, try 12/5 - 12 (3, 4, 6, 8, 12)
+taskset -c 0-11 ./run.sh pthreads large tmp.out 3
+taskset -c 0-11 ./run.sh pthreads large tmp.out 4
+taskset -c 0-11 ./run.sh pthreads large tmp.out 6
+taskset -c 0-11 ./run.sh pthreads large tmp.out 8
+taskset -c 0-11 ./run.sh pthreads large tmp.out 12
+taskset -c 0-11 ./run.sh pthreads large tmp.out 3 48
+taskset -c 0-11 ./run.sh pthreads large tmp.out 4 48
+taskset -c 0-11 ./run.sh pthreads large tmp.out 6 48
+taskset -c 0-11 ./run.sh pthreads large tmp.out 8 48
+taskset -c 0-11 ./run.sh pthreads large tmp.out 12 48
+#
+# for P = 16, try 16/5 - 16 (3, 4, 6, 8, 10, 12, 14, 16)
+taskset -c 0-15 ./run.sh pthreads large tmp.out 3
+taskset -c 0-15 ./run.sh pthreads large tmp.out 4
+taskset -c 0-15 ./run.sh pthreads large tmp.out 6
+taskset -c 0-15 ./run.sh pthreads large tmp.out 8
+taskset -c 0-15 ./run.sh pthreads large tmp.out 10 
+taskset -c 0-15 ./run.sh pthreads large tmp.out 12 
+taskset -c 0-15 ./run.sh pthreads large tmp.out 14 
+taskset -c 0-15 ./run.sh pthreads large tmp.out 16 
+taskset -c 0-15 ./run.sh pthreads large tmp.out 3 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 4 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 6 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 8 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 10 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 12 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 14 64
+taskset -c 0-15 ./run.sh pthreads large tmp.out 16 64
+

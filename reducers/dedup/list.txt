@@ -1,0 +1,78 @@
+./run.sh serial large tmp.out
+./run.sh serial native tmp.out 
+# large set
+# P = 1
+taskset -c 0 ./run.sh pthreads native tmp.out 1
+taskset -c 0 ./run.sh pthreads native tmp.out 1 1
+# P = 2
+taskset -c 0-1 ./run.sh pthreads native tmp.out 2
+taskset -c 0-1 ./run.sh pthreads native tmp.out 2 8
+# P = 4
+taskset -c 0-3 ./run.sh pthreads native tmp.out 4
+taskset -c 0-3 ./run.sh pthreads native tmp.out 4 16
+# P = 8
+taskset -c 0-7 ./run.sh pthreads native tmp.out 4
+# OR
+taskset -c 0-7 ./run.sh pthreads native tmp.out 8
+taskset -c 0-7 ./run.sh pthreads native tmp.out 8 32
+# P = 12 
+taskset -c 0-11 ./run.sh pthreads native tmp.out 8
+taskset -c 0-11 ./run.sh pthreads native tmp.out 8 48
+# P = 16
+taskset -c 0-15 ./run.sh pthreads native tmp.out 8
+taskset -c 0-15 ./run.sh pthreads native tmp.out 12 64
+# large set
+# P = 1
+taskset -c 0 ./run.sh pthreads large tmp.out 1
+taskset -c 0 ./run.sh pthreads large tmp.out 1 1
+# P = 2
+taskset -c 0-1 ./run.sh pthreads large tmp.out 2
+taskset -c 0-1 ./run.sh pthreads large tmp.out 2 8
+# P = 4
+taskset -c 0-3 ./run.sh pthreads large tmp.out 4
+taskset -c 0-3 ./run.sh pthreads large tmp.out 4 16
+# P = 8
+taskset -c 0-7 ./run.sh pthreads large tmp.out 4
+taskset -c 0-7 ./run.sh pthreads large tmp.out 8 32
+# P = 12 
+taskset -c 0-11 ./run.sh pthreads large tmp.out 8
+taskset -c 0-11 ./run.sh pthreads large tmp.out 12 48
+# P = 16
+taskset -c 0-15 ./run.sh pthreads large tmp.out 8
+taskset -c 0-15 ./run.sh pthreads large tmp.out 12 64
+#
+sudo ./run.sh cilk large tmp.out 1 
+sudo ./run.sh cilk large tmp.out 2 
+sudo ./run.sh cilk large tmp.out 4 
+sudo ./run.sh cilk large tmp.out 8 
+sudo ./run.sh cilk large tmp.out 12 
+sudo ./run.sh cilk large tmp.out 16 
+#
+sudo ./run.sh cilk native tmp.out 1 
+sudo ./run.sh cilk native tmp.out 2 
+sudo ./run.sh cilk native tmp.out 4 
+sudo ./run.sh cilk native tmp.out 8 
+sudo ./run.sh cilk native tmp.out 12 
+sudo ./run.sh cilk native tmp.out 16 
+#
+./run.sh tbb large tmp.out 1
+./run.sh tbb large tmp.out 2
+./run.sh tbb large tmp.out 4
+./run.sh tbb large tmp.out 8
+./run.sh tbb large tmp.out 12 
+./run.sh tbb large tmp.out 16
+#
+./run.sh tbb native tmp.out 1
+./run.sh tbb native tmp.out 2
+./run.sh tbb native tmp.out 4
+./run.sh tbb native tmp.out 8
+./run.sh tbb native tmp.out 12 
+./run.sh tbb native tmp.out 16
+#
+# Use these is also throttling the ringbuffer
+taskset -c 0 ./run.sh pthreads native tmp.out 1 1
+taskset -c 0-1 ./run.sh pthreads native tmp.out 2 8
+taskset -c 0-3 ./run.sh pthreads native tmp.out 4 16
+taskset -c 0 ./run.sh pthreads large tmp.out 1 1
+taskset -c 0-1 ./run.sh pthreads large tmp.out 2 8
+taskset -c 0-3 ./run.sh pthreads large tmp.out 4 16

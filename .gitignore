@@ -1,8 +1,10 @@
 *~
+*Compile-*.txt
 *Run-*.txt
 *Cilksan*.txt
 *Cilkscale*.txt
 *.o
+*.out
 *.pyc
 
 tmp/
@@ -187,3 +189,13 @@ pbbs/spanningForest/*/ST.h
 !pbbs/spanningForest/common/ST.h
 pbbs/suffixArray/*/SA.h
 !pbbs/suffixArray/common/SA.h
+
+*miniFE*.yaml
+
+reducers/dedup/data
+reducers/dedup/out
+reducers/dedup/src/cilk/dedup-reducer
+reducers/dedup/src/cilk/dedup-serial
+reducers/ferret/data
+reducers/ferret/out
+reducers/ferret/src/build

@@ -1,0 +1,565 @@
+
+LS: Checking a Tapir loop in "_ZN6miniFE6driverIdiiEEvRK3BoxRS1_RNS_10ParametersER8YAML_Doc" from main.cpp: Loop at depth 1 containing: %pfor.detach.i<header>,%pfor.body.i,%pfor.inc.i<latch><exiting>
+
+LS: Loop hints: strategy = Use divide-and-conquer grainsize = 0
+LS: Hints dictate DAC spawning.
+Blocks in loop (from DFS):
+
+pfor.detach.i:                                    ; preds = %pfor.inc.i, %pfor.detach.lr.ph.i
+  %indvars.iv.i = phi i64 [ 0, %pfor.detach.lr.ph.i ], [ %indvars.iv.next.i, %pfor.inc.i ]
+  detach within %syncreg.i, label %pfor.body.i, label %pfor.inc.i
+
+pfor.body.i:                                      ; preds = %pfor.detach.i
+  %add.ptr.i.i = getelementptr inbounds double, double* %cond.i.i.i.i.i, i64 %indvars.iv.i
+  store double 0.000000e+00, double* %add.ptr.i.i, align 8, !tbaa !45
+  reattach within %syncreg.i, label %pfor.inc.i
+
+pfor.inc.i:                                       ; preds = %pfor.body.i, %pfor.detach.i
+  %indvars.iv.next.i = add nuw nsw i64 %indvars.iv.i, 1
+  %exitcond.i = icmp eq i64 %indvars.iv.next.i, %wide.trip.count.i
+  br i1 %exitcond.i, label %pfor.cond.cleanup.i.loopexit, label %pfor.detach.i, !llvm.loop !47
+LS loop header:
+pfor.detach.i:                                    ; preds = %pfor.inc.i, %pfor.detach.lr.ph.i
+  %indvars.iv.i = phi i64 [ 0, %pfor.detach.lr.ph.i ], [ %indvars.iv.next.i, %pfor.inc.i ]
+  detach within %syncreg.i, label %pfor.body.i, label %pfor.inc.i
+LS loop latch:
+pfor.inc.i:                                       ; preds = %pfor.body.i, %pfor.detach.i
+  %indvars.iv.next.i = add nuw nsw i64 %indvars.iv.i, 1
+  %exitcond.i = icmp eq i64 %indvars.iv.next.i, %wide.trip.count.i
+  br i1 %exitcond.i, label %pfor.cond.cleanup.i.loopexit, label %pfor.detach.i, !llvm.loop !47
+LS SE exit count: (-1 + (zext i32 %66 to i64))<nsw>
+LS Loop limit: (-1 + (zext i32 %66 to i64))<nsw>
+LS Canonical induction variable   %indvars.iv.i = phi i64 [ 0, %pfor.detach.lr.ph.i ], [ %indvars.iv.next.i, %pfor.inc.i ]
+LS step recurrence for SCEV {0,+,1}<nuw><nsw><%pfor.detach.i> is 1
+LimitVar:   %67 = add i64 %wide.trip.count.i, -1
+GrainVar:   %74 = select i1 %73, i64 2048, i64 %72
+Handled exits of loop:
+Loop exits to split:
+Remaining body input:   %cond.i.i.i.i.i = phi double* [ %63, %call2.i.i.i.i3.i.i21.i.noexc ], [ null, %cond.end ]
+Remaining body input:   %68 = add i64 %wide.trip.count.i, -1
+EL input: i64 %indvars.iv.i.start
+EL input: i64 %end
+EL input:   %74 = select i1 %73, i64 2048, i64 %72
+EL input:   %cond.i.i.i.i.i = phi double* [ %63, %call2.i.i.i.i3.i.i21.i.noexc ], [ null, %cond.end ]
+EL input:   %68 = add i64 %wide.trip.count.i, -1
+StartIterSCEV: %indvars.iv.i.start.ls
+Rewritten Latch: 
+pfor.inc.i.ls:                                    ; preds = %pfor.body.i.ls, %pfor.detach.i.ls
+  %0 = icmp ult i64 %indvars.iv.i.ls, %end.ls
+  %indvars.iv.next.i.ls = add nuw nsw i64 %indvars.iv.i.ls, 1
+  br i1 %0, label %pfor.detach.i.ls, label %pfor.cond.cleanup.i.loopexit.ls
+LS CanonicalIV:   %indvars.iv.i.ls = phi i64 [ %indvars.iv.i.start.ls, %pfor.detach.lr.ph.i.ls.split ], [ %indvars.iv.next.i.ls, %pfor.inc.i.ls ]
+RecurInputs:   %indvars.iv.i.ls.dac = phi i64 ,   %miditer = add nuw nsw i64 %indvars.iv.i.ls.dac, %halfcount, i64 %.ls, double* %cond.i.i.i.i.i.ls, i64 %.ls1, 
+Top call arg: i64 0
+Top call arg:   %68 = add i64 %wide.trip.count.i, -1
+Top call arg:   %74 = select i1 %73, i64 2048, i64 %72
+Top call arg:   %cond.i.i.i.i.i = phi double* [ %63, %call2.i.i.i.i3.i.i21.i.noexc ], [ null, %cond.end ]
+Top call arg:   %68 = add i64 %wide.trip.count.i, -1
+
+LS: Checking a Tapir loop in "_ZN6miniFE6driverIdiiEEvRK3BoxRS1_RNS_10ParametersER8YAML_Doc" from main.cpp: Loop at depth 1 containing: %pfor.detach.i1280<header>,%pfor.body.i1282,%pfor.inc.i1285<latch><exiting>
+
+LS: Loop hints: strategy = Use divide-and-conquer grainsize = 0
+LS: Hints dictate DAC spawning.
+Blocks in loop (from DFS):
+
+pfor.detach.i1280:                                ; preds = %pfor.inc.i1285, %pfor.detach.lr.ph.i1277
+  %indvars.iv.i1279 = phi i64 [ 0, %pfor.detach.lr.ph.i1277 ], [ %indvars.iv.next.i1283, %pfor.inc.i1285 ]
+  detach within %syncreg.i1255, label %pfor.body.i1282, label %pfor.inc.i1285
+
+pfor.body.i1282:                                  ; preds = %pfor.detach.i1280
+  %add.ptr.i.i1281 = getelementptr inbounds double, double* %cond.i.i.i.i.i1266, i64 %indvars.iv.i1279
+  store double 0.000000e+00, double* %add.ptr.i.i1281, align 8, !tbaa !45
+  reattach within %syncreg.i1255, label %pfor.inc.i1285
+
+pfor.inc.i1285:                                   ; preds = %pfor.body.i1282, %pfor.detach.i1280
+  %indvars.iv.next.i1283 = add nuw nsw i64 %indvars.iv.i1279, 1
+  %exitcond.i1284 = icmp eq i64 %indvars.iv.next.i1283, %wide.trip.count.i1276
+  br i1 %exitcond.i1284, label %pfor.cond.cleanup.i1278.loopexit, label %pfor.detach.i1280, !llvm.loop !47
+LS loop header:
+pfor.detach.i1280:                                ; preds = %pfor.inc.i1285, %pfor.detach.lr.ph.i1277
+  %indvars.iv.i1279 = phi i64 [ 0, %pfor.detach.lr.ph.i1277 ], [ %indvars.iv.next.i1283, %pfor.inc.i1285 ]
+  detach within %syncreg.i1255, label %pfor.body.i1282, label %pfor.inc.i1285
+LS loop latch:
+pfor.inc.i1285:                                   ; preds = %pfor.body.i1282, %pfor.detach.i1280
+  %indvars.iv.next.i1283 = add nuw nsw i64 %indvars.iv.i1279, 1
+  %exitcond.i1284 = icmp eq i64 %indvars.iv.next.i1283, %wide.trip.count.i1276
+  br i1 %exitcond.i1284, label %pfor.cond.cleanup.i1278.loopexit, label %pfor.detach.i1280, !llvm.loop !47
+LS SE exit count: (-1 + (zext i32 %82 to i64))<nsw>
+LS Loop limit: (-1 + (zext i32 %82 to i64))<nsw>
+LS Canonical induction variable   %indvars.iv.i1279 = phi i64 [ 0, %pfor.detach.lr.ph.i1277 ], [ %indvars.iv.next.i1283, %pfor.inc.i1285 ]
+LS step recurrence for SCEV {0,+,1}<nuw><nsw><%pfor.detach.i1280> is 1
+LimitVar:   %83 = add i64 %wide.trip.count.i1276, -1
+GrainVar:   %90 = select i1 %89, i64 2048, i64 %88
+Handled exits of loop:
+Loop exits to split:
+Remaining body input:   %cond.i.i.i.i.i1266 = phi double* [ %79, %call2.i.i.i.i3.i.i21.i.noexc1287 ], [ null, %invoke.cont76 ]
+Remaining body input:   %84 = add i64 %wide.trip.count.i1276, -1
+EL input: i64 %indvars.iv.i1279.start
+EL input: i64 %end
+EL input:   %90 = select i1 %89, i64 2048, i64 %88
+EL input:   %cond.i.i.i.i.i1266 = phi double* [ %79, %call2.i.i.i.i3.i.i21.i.noexc1287 ], [ null, %invoke.cont76 ]
+EL input:   %84 = add i64 %wide.trip.count.i1276, -1
+StartIterSCEV: %indvars.iv.i1279.start.ls
+Rewritten Latch: 
+pfor.inc.i1285.ls:                                ; preds = %pfor.body.i1282.ls, %pfor.detach.i1280.ls
+  %0 = icmp ult i64 %indvars.iv.i1279.ls, %end.ls
+  %indvars.iv.next.i1283.ls = add nuw nsw i64 %indvars.iv.i1279.ls, 1
+  br i1 %0, label %pfor.detach.i1280.ls, label %pfor.cond.cleanup.i1278.loopexit.ls
+LS CanonicalIV:   %indvars.iv.i1279.ls = phi i64 [ %indvars.iv.i1279.start.ls, %pfor.detach.lr.ph.i1277.ls.split ], [ %indvars.iv.next.i1283.ls, %pfor.inc.i1285.ls ]
+RecurInputs:   %indvars.iv.i1279.ls.dac = phi i64 ,   %miditer = add nuw nsw i64 %indvars.iv.i1279.ls.dac, %halfcount, i64 %.ls, double* %cond.i.i.i.i.i1266.ls, i64 %.ls1, 
+Top call arg: i64 0
+Top call arg:   %84 = add i64 %wide.trip.count.i1276, -1
+Top call arg:   %90 = select i1 %89, i64 2048, i64 %88
+Top call arg:   %cond.i.i.i.i.i1266 = phi double* [ %79, %call2.i.i.i.i3.i.i21.i.noexc1287 ], [ null, %invoke.cont76 ]
+Top call arg:   %84 = add i64 %wide.trip.count.i1276, -1
+LS loop header is not terminated by a detach: Loop at depth 1 containing: %for.body<header>,%for.body150.lr.ph,%for.body150,%for.body150.for.cond.cleanup160_crit_edge,%for.body161.lr.ph,%for.body161,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190,%for.cond.cleanup160,%for.cond.cleanup149<latch><exiting>,%for.cond.cleanup160.loopexit,%for.cond.cleanup149.loopexit
+    Loop at depth 2 containing: %for.body150<header>,%for.body150.for.cond.cleanup160_crit_edge,%for.body161.lr.ph,%for.body161,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190,%for.cond.cleanup160<latch><exiting>,%for.cond.cleanup160.loopexit
+        Loop at depth 3 containing: %for.body161<header>,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190<latch><exiting>
+            Loop at depth 4 containing: %for.body191<header>,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2<latch><exiting>
+
+LS: Loop hints: strategy = Spawn iterations sequentially grainsize = 0
+LS loop header is not terminated by a detach: Loop at depth 2 containing: %for.body150<header>,%for.body150.for.cond.cleanup160_crit_edge,%for.body161.lr.ph,%for.body161,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190,%for.cond.cleanup160<latch><exiting>,%for.cond.cleanup160.loopexit
+    Loop at depth 3 containing: %for.body161<header>,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190<latch><exiting>
+        Loop at depth 4 containing: %for.body191<header>,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2<latch><exiting>
+
+LS: Loop hints: strategy = Spawn iterations sequentially grainsize = 0
+LS loop header is not terminated by a detach: Loop at depth 3 containing: %for.body161<header>,%if.end.i542,%_ZN6miniFE6get_idIiEET_iiiiii.exit549<exiting>,%invoke.cont165,%for.body191,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2,%for.cond.cleanup190<latch><exiting>
+    Loop at depth 4 containing: %for.body191<header>,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2<latch><exiting>
+
+LS: Loop hints: strategy = Spawn iterations sequentially grainsize = 0
+LS loop header is not terminated by a detach: Loop at depth 4 containing: %for.body191<header>,%if.end.i,%_ZN6miniFE6get_idIiEET_iiiiii.exit,%if.end.i.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1,%if.end.i.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2,%if.end.i.1634,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1641,%if.end.i.1.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.1,%if.end.i.2.1,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.1,%if.end.i.2648,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2655,%if.end.i.1.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.1.2,%if.end.i.2.2,%_ZN6miniFE6get_idIiEET_iiiiii.exit.2.2<latch><exiting>
+
+LS: Loop hints: strategy = Spawn iterations sequentially grainsize = 0
+
+LS: Checking a Tapir loop in "_ZN6miniFE25generate_matrix_structureINS_9CSRMatrixIdiiEEEEiRKNS_23simple_mesh_descriptionINT_17GlobalOrdinalTypeEEERS4_" from main.cpp: Loop at depth 1 containing: %pfor.detach.i<header>,%pfor.body.i<exiting>,%pfor.preattach.i,%pfor.inc.i<latch><exiting>
+
+LS: Loop hints: strategy = Use divide-and-conquer grainsize = 0
+LS: Hints dictate DAC spawning.
+Blocks in loop (from DFS):
+
+pfor.detach.i:                                    ; preds = %pfor.detach.i.preheader, %pfor.inc.i
+  %__begin.017.i = phi i32 [ %inc.i, %pfor.inc.i ], [ 0, %pfor.detach.i.preheader ]
+  detach within %syncreg.i, label %pfor.body.i, label %pfor.inc.i
+
+pfor.body.i:                                      ; preds = %pfor.detach.i
+  invoke void @_ZN12MatrixInitOpIN6miniFE9CSRMatrixIdiiEEEclEi(%struct.MatrixInitOp* nonnull %mat_init.i, i32 %__begin.017.i)
+          to label %pfor.preattach.i unwind label %lpad.i
+
+pfor.preattach.i:                                 ; preds = %pfor.body.i
+  reattach within %syncreg.i, label %pfor.inc.i
+
+pfor.inc.i:                                       ; preds = %pfor.preattach.i, %pfor.detach.i
+  %inc.i = add nuw nsw i32 %__begin.017.i, 1
+  %cmp.i = icmp slt i32 %inc.i, %95
+  br i1 %cmp.i, label %pfor.detach.i, label %pfor.cond.cleanup.i.loopexit, !llvm.loop !30
+landing pad found:   %96 = landingpad { i8*, i32 }
+          catch i8* null
+LS loop header:
+pfor.detach.i:                                    ; preds = %pfor.detach.i.preheader, %pfor.inc.i
+  %__begin.017.i = phi i32 [ %inc.i, %pfor.inc.i ], [ 0, %pfor.detach.i.preheader ]
+  detach within %syncreg.i, label %pfor.body.i, label %pfor.inc.i
+LS loop latch:
+pfor.inc.i:                                       ; preds = %pfor.preattach.i, %pfor.detach.i
+  %inc.i = add nuw nsw i32 %__begin.017.i, 1
+  %cmp.i = icmp slt i32 %inc.i, %95
+  br i1 %cmp.i, label %pfor.detach.i, label %pfor.cond.cleanup.i.loopexit, !llvm.loop !30
+LS SE exit count: (-1 + %95)
+LS Loop limit: (-1 + %95)
+LS Canonical induction variable   %__begin.017.i = phi i32 [ %inc.i, %pfor.inc.i ], [ 0, %pfor.detach.i.preheader ]
+LS step recurrence for SCEV {0,+,1}<nuw><nsw><%pfor.detach.i> is 1
+LimitVar:   %96 = add i32 %95, -1
+GrainVar:   %102 = select i1 %101, i32 2048, i32 %100
+Handled exits of loop:
+if.then.i4.i:                                     ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+  %arrayidx.i.i391 = getelementptr inbounds %"class.std::ctype", %"class.std::ctype"* %125, i64 0, i32 9, i64 10
+  %127 = load i8, i8* %arrayidx.i.i391, align 1, !tbaa !26
+  br label %call.i.noexc
+
+invoke.cont284:                                   ; preds = %ehcleanup275
+  %120 = load i32, i32* %myproc, align 4, !tbaa !2
+  %call287 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* nonnull @_ZSt4cout, i32 %120)
+          to label %invoke.cont286 unwind label %lpad283
+
+if.then.i.i8.i:                                   ; preds = %ehcleanup269
+  %118 = bitcast i32* %117 to i8*
+  call void @_ZdlPv(i8* %118) #1
+  br label %ehcleanup274
+
+lpad283:                                          ; preds = %ehcleanup275, %invoke.cont286, %.noexc392, %if.end.i.i, %if.then.i.i, %call1.i.noexc, %call.i.noexc, %invoke.cont284
+  %132 = landingpad { i8*, i32 }
+          cleanup
+  invoke void @__cxa_end_catch()
+          to label %invoke.cont293 unwind label %terminate.lpad
+
+if.then.i.i8.i410:                                ; preds = %ehcleanup264
+  %116 = bitcast i32* %115 to i8*
+  call void @_ZdlPv(i8* %116) #1
+  br label %ehcleanup269
+
+.noexc392:                                        ; preds = %if.end.i.i
+  %128 = bitcast %"class.std::ctype"* %125 to i8 (%"class.std::ctype"*, i8)***
+  %vtable.i.i = load i8 (%"class.std::ctype"*, i8)**, i8 (%"class.std::ctype"*, i8)*** %128, align 8, !tbaa !6
+  %vfn.i.i = getelementptr inbounds i8 (%"class.std::ctype"*, i8)*, i8 (%"class.std::ctype"*, i8)** %vtable.i.i, i64 6
+  %129 = load i8 (%"class.std::ctype"*, i8)*, i8 (%"class.std::ctype"*, i8)** %vfn.i.i, align 8
+  %call.i.i393 = invoke signext i8 %129(%"class.std::ctype"* nonnull %125, i8 signext 10)
+          to label %call.i.noexc unwind label %lpad283
+
+if.then.i.i:                                      ; preds = %invoke.cont288
+  invoke void @_ZSt16__throw_bad_castv() #20
+          to label %.noexc unwind label %lpad283
+
+_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i:  ; preds = %invoke.cont288
+  %_M_widen_ok.i.i = getelementptr inbounds %"class.std::ctype", %"class.std::ctype"* %125, i64 0, i32 8
+  %126 = load i8, i8* %_M_widen_ok.i.i, align 8, !tbaa !33
+  %tobool.i3.i = icmp eq i8 %126, 0
+  br i1 %tobool.i3.i, label %if.end.i.i, label %if.then.i4.i
+
+ehcleanup275:                                     ; preds = %ehcleanup104, %ehcleanup274, %lpad81
+  %exn.slot.9 = phi i8* [ %exn.slot.8, %ehcleanup274 ], [ %13, %lpad81 ], [ %exn.slot.3, %ehcleanup104 ]
+  %119 = call i8* @__cxa_begin_catch(i8* %exn.slot.9) #1
+  %call1.i403 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(%"class.std::basic_ostream"* nonnull dereferenceable(272) @_ZSt4cout, i8* nonnull getelementptr inbounds ([6 x i8], [6 x i8]* @.str.94, i64 0, i64 0), i64 5)
+          to label %invoke.cont284 unwind label %lpad283
+
+call.i.noexc:                                     ; preds = %if.then.i4.i, %.noexc392
+  %retval.0.i.i = phi i8 [ %127, %if.then.i4.i ], [ %call.i.i393, %.noexc392 ]
+  %call1.i386 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSo3putEc(%"class.std::basic_ostream"* nonnull %call287, i8 signext %retval.0.i.i)
+          to label %call1.i.noexc unwind label %lpad283
+
+invoke.cont293:                                   ; preds = %lpad283
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %2) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %1) #1
+  resume { i8*, i32 } %132
+
+try.cont294:                                      ; preds = %invoke.cont290, %invoke.cont271
+  %130 = bitcast i32* %global_throw to i8*
+  call void @llvm.lifetime.start.p0i8(i64 4, i8* nonnull %130) #1
+  store i32 0, i32* %global_throw, align 4, !tbaa !2
+  %call295 = call i32 @MPI_Allreduce(i8* nonnull %2, i8* nonnull %130, i32 1, %struct.ompi_datatype_t* bitcast (%struct.ompi_predefined_datatype_t* @ompi_mpi_int to %struct.ompi_datatype_t*), %struct.ompi_op_t* bitcast (%struct.ompi_predefined_op_t* @ompi_mpi_op_sum to %struct.ompi_op_t*), %struct.ompi_communicator_t* bitcast (%struct.ompi_predefined_communicator_t* @ompi_mpi_comm_world to %struct.ompi_communicator_t*))
+  %131 = load i32, i32* %global_throw, align 4, !tbaa !2
+  %tobool = icmp ne i32 %131, 0
+  %. = zext i1 %tobool to i32
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %130) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %2) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %1) #1
+  ret i32 %.
+
+terminate.lpad:                                   ; preds = %invoke.cont.i, %lpad283, %ehcleanup104
+  %133 = landingpad { i8*, i32 }
+          catch i8* null
+  %134 = extractvalue { i8*, i32 } %133, 0
+  call void @__clang_call_terminate(i8* %134) #21
+  unreachable
+
+invoke.cont286:                                   ; preds = %invoke.cont284
+  %call1.i398 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(%"class.std::basic_ostream"* nonnull dereferenceable(272) %call287, i8* nonnull getelementptr inbounds ([89 x i8], [89 x i8]* @.str.95, i64 0, i64 0), i64 88)
+          to label %invoke.cont288 unwind label %lpad283
+
+.noexc:                                           ; preds = %if.then.i.i
+  unreachable
+
+ehcleanup274:                                     ; preds = %if.then.i.i8.i, %ehcleanup269, %lpad109
+  %exn.slot.8 = phi i8* [ %64, %lpad109 ], [ %exn.slot.7, %ehcleanup269 ], [ %exn.slot.7, %if.then.i.i8.i ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %49) #1
+  br label %ehcleanup275
+
+invoke.cont290:                                   ; preds = %call1.i.noexc
+  store i32 1, i32* %threw_exc, align 4, !tbaa !2
+  call void @__cxa_end_catch()
+  br label %try.cont294
+
+ehcleanup264:                                     ; preds = %if.then.i.i8.i415, %ehcleanup258, %lpad127
+  %exn.slot.6 = phi i8* [ %68, %lpad127 ], [ %exn.slot.5, %ehcleanup258 ], [ %exn.slot.5, %if.then.i.i8.i415 ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %58) #1
+  %115 = load i32*, i32** %_M_start.i.i.i479, align 8, !tbaa !19
+  %tobool.i.i7.i409 = icmp eq i32* %115, null
+  br i1 %tobool.i.i7.i409, label %ehcleanup269, label %if.then.i.i8.i410
+
+lpad.i:                                           ; preds = %pfor.body.i
+  %104 = landingpad { i8*, i32 }
+          catch i8* null
+  call void @llvm.lifetime.end.p0i8(i64 88, i8* nonnull %95) #1
+  br label %lpad254.body
+
+ehcleanup269:                                     ; preds = %if.then.i.i8.i410, %ehcleanup264, %lpad118
+  %exn.slot.7 = phi i8* [ %66, %lpad118 ], [ %exn.slot.6, %ehcleanup264 ], [ %exn.slot.6, %if.then.i.i8.i410 ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %54) #1
+  %117 = load i32*, i32** %_M_start.i.i.i, align 8, !tbaa !19
+  %tobool.i.i7.i = icmp eq i32* %117, null
+  br i1 %tobool.i.i7.i, label %ehcleanup274, label %if.then.i.i8.i
+
+call1.i.noexc:                                    ; preds = %call.i.noexc
+  %call.i389 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSo5flushEv(%"class.std::basic_ostream"* nonnull %call1.i386)
+          to label %invoke.cont290 unwind label %lpad283
+
+if.then.i.i8.i415:                                ; preds = %ehcleanup258
+  %114 = bitcast i32* %113 to i8*
+  call void @_ZdlPv(i8* %114) #1
+  br label %ehcleanup264
+
+if.end.i.i:                                       ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+  invoke void @_ZNKSt5ctypeIcE13_M_widen_initEv(%"class.std::ctype"* nonnull %125)
+          to label %.noexc392 unwind label %lpad283
+
+lpad254.body:                                     ; preds = %lpad.i, %lpad254
+  %eh.lpad-body = phi { i8*, i32 } [ %111, %lpad254 ], [ undef, %lpad.i ]
+  %112 = extractvalue { i8*, i32 } %eh.lpad-body, 0
+  br label %ehcleanup258
+
+ehcleanup258:                                     ; preds = %if.then.i.i437, %ehcleanup248, %cleanup.action, %lpad254.body, %lpad162
+  %exn.slot.5 = phi i8* [ %76, %lpad162 ], [ %exn.slot.4591, %cleanup.action ], [ %92, %ehcleanup248 ], [ %112, %lpad254.body ], [ %92, %if.then.i.i437 ]
+  %113 = load i32*, i32** %_M_start.i.i.i504, align 8, !tbaa !19
+  %tobool.i.i7.i414 = icmp eq i32* %113, null
+  br i1 %tobool.i.i7.i414, label %ehcleanup264, label %if.then.i.i8.i415
+
+invoke.cont288:                                   ; preds = %invoke.cont286
+  %121 = bitcast %"class.std::basic_ostream"* %call287 to i8**
+  %vtable.i = load i8*, i8** %121, align 8, !tbaa !6
+  %vbase.offset.ptr.i = getelementptr i8, i8* %vtable.i, i64 -24
+  %122 = bitcast i8* %vbase.offset.ptr.i to i64*
+  %vbase.offset.i = load i64, i64* %122, align 8
+  %123 = bitcast %"class.std::basic_ostream"* %call287 to i8*
+  %add.ptr.i = getelementptr inbounds i8, i8* %123, i64 %vbase.offset.i
+  %_M_ctype.i = getelementptr inbounds i8, i8* %add.ptr.i, i64 240
+  %124 = bitcast i8* %_M_ctype.i to %"class.std::ctype"**
+  %125 = load %"class.std::ctype"*, %"class.std::ctype"** %124, align 8, !tbaa !30
+  %tobool.i.i = icmp eq %"class.std::ctype"* %125, null
+  br i1 %tobool.i.i, label %if.then.i.i, label %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+
+Loop exits to split:
+invoke.cont288:                                   ; preds = %invoke.cont286
+  %121 = bitcast %"class.std::basic_ostream"* %call287 to i8**
+  %vtable.i = load i8*, i8** %121, align 8, !tbaa !6
+  %vbase.offset.ptr.i = getelementptr i8, i8* %vtable.i, i64 -24
+  %122 = bitcast i8* %vbase.offset.ptr.i to i64*
+  %vbase.offset.i = load i64, i64* %122, align 8
+  %123 = bitcast %"class.std::basic_ostream"* %call287 to i8*
+  %add.ptr.i = getelementptr inbounds i8, i8* %123, i64 %vbase.offset.i
+  %_M_ctype.i = getelementptr inbounds i8, i8* %add.ptr.i, i64 240
+  %124 = bitcast i8* %_M_ctype.i to %"class.std::ctype"**
+  %125 = load %"class.std::ctype"*, %"class.std::ctype"** %124, align 8, !tbaa !30
+  %tobool.i.i = icmp eq %"class.std::ctype"* %125, null
+  br i1 %tobool.i.i, label %if.then.i.i, label %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+
+invoke.cont284:                                   ; preds = %ehcleanup275
+  %120 = load i32, i32* %myproc, align 4, !tbaa !2
+  %call287 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSolsEi(%"class.std::basic_ostream"* nonnull @_ZSt4cout, i32 %120)
+          to label %invoke.cont286 unwind label %lpad283
+
+if.then.i.i8.i:                                   ; preds = %ehcleanup269
+  %118 = bitcast i32* %117 to i8*
+  call void @_ZdlPv(i8* %118) #1
+  br label %ehcleanup274
+
+lpad283:                                          ; preds = %ehcleanup275, %invoke.cont286, %.noexc392, %if.end.i.i, %if.then.i.i, %call1.i.noexc, %call.i.noexc, %invoke.cont284
+  %132 = landingpad { i8*, i32 }
+          cleanup
+  invoke void @__cxa_end_catch()
+          to label %invoke.cont293 unwind label %terminate.lpad
+
+if.then.i.i8.i410:                                ; preds = %ehcleanup264
+  %116 = bitcast i32* %115 to i8*
+  call void @_ZdlPv(i8* %116) #1
+  br label %ehcleanup269
+
+.noexc392:                                        ; preds = %if.end.i.i
+  %128 = bitcast %"class.std::ctype"* %125 to i8 (%"class.std::ctype"*, i8)***
+  %vtable.i.i = load i8 (%"class.std::ctype"*, i8)**, i8 (%"class.std::ctype"*, i8)*** %128, align 8, !tbaa !6
+  %vfn.i.i = getelementptr inbounds i8 (%"class.std::ctype"*, i8)*, i8 (%"class.std::ctype"*, i8)** %vtable.i.i, i64 6
+  %129 = load i8 (%"class.std::ctype"*, i8)*, i8 (%"class.std::ctype"*, i8)** %vfn.i.i, align 8
+  %call.i.i393 = invoke signext i8 %129(%"class.std::ctype"* nonnull %125, i8 signext 10)
+          to label %call.i.noexc unwind label %lpad283
+
+if.then.i.i:                                      ; preds = %invoke.cont288
+  invoke void @_ZSt16__throw_bad_castv() #20
+          to label %.noexc unwind label %lpad283
+
+_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i:  ; preds = %invoke.cont288
+  %_M_widen_ok.i.i = getelementptr inbounds %"class.std::ctype", %"class.std::ctype"* %125, i64 0, i32 8
+  %126 = load i8, i8* %_M_widen_ok.i.i, align 8, !tbaa !33
+  %tobool.i3.i = icmp eq i8 %126, 0
+  br i1 %tobool.i3.i, label %if.end.i.i, label %if.then.i4.i
+
+ehcleanup275:                                     ; preds = %ehcleanup104, %ehcleanup274, %lpad81
+  %exn.slot.9 = phi i8* [ %exn.slot.8, %ehcleanup274 ], [ %13, %lpad81 ], [ %exn.slot.3, %ehcleanup104 ]
+  %119 = call i8* @__cxa_begin_catch(i8* %exn.slot.9) #1
+  %call1.i403 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(%"class.std::basic_ostream"* nonnull dereferenceable(272) @_ZSt4cout, i8* nonnull getelementptr inbounds ([6 x i8], [6 x i8]* @.str.94, i64 0, i64 0), i64 5)
+          to label %invoke.cont284 unwind label %lpad283
+
+call.i.noexc:                                     ; preds = %if.then.i4.i, %.noexc392
+  %retval.0.i.i = phi i8 [ %127, %if.then.i4.i ], [ %call.i.i393, %.noexc392 ]
+  %call1.i386 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSo3putEc(%"class.std::basic_ostream"* nonnull %call287, i8 signext %retval.0.i.i)
+          to label %call1.i.noexc unwind label %lpad283
+
+invoke.cont293:                                   ; preds = %lpad283
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %2) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %1) #1
+  resume { i8*, i32 } %132
+
+try.cont294:                                      ; preds = %invoke.cont290, %invoke.cont271
+  %130 = bitcast i32* %global_throw to i8*
+  call void @llvm.lifetime.start.p0i8(i64 4, i8* nonnull %130) #1
+  store i32 0, i32* %global_throw, align 4, !tbaa !2
+  %call295 = call i32 @MPI_Allreduce(i8* nonnull %2, i8* nonnull %130, i32 1, %struct.ompi_datatype_t* bitcast (%struct.ompi_predefined_datatype_t* @ompi_mpi_int to %struct.ompi_datatype_t*), %struct.ompi_op_t* bitcast (%struct.ompi_predefined_op_t* @ompi_mpi_op_sum to %struct.ompi_op_t*), %struct.ompi_communicator_t* bitcast (%struct.ompi_predefined_communicator_t* @ompi_mpi_comm_world to %struct.ompi_communicator_t*))
+  %131 = load i32, i32* %global_throw, align 4, !tbaa !2
+  %tobool = icmp ne i32 %131, 0
+  %. = zext i1 %tobool to i32
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %130) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %2) #1
+  call void @llvm.lifetime.end.p0i8(i64 4, i8* nonnull %1) #1
+  ret i32 %.
+
+terminate.lpad:                                   ; preds = %invoke.cont.i, %lpad283, %ehcleanup104
+  %133 = landingpad { i8*, i32 }
+          catch i8* null
+  %134 = extractvalue { i8*, i32 } %133, 0
+  call void @__clang_call_terminate(i8* %134) #21
+  unreachable
+
+invoke.cont286:                                   ; preds = %invoke.cont284
+  %call1.i398 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZSt16__ostream_insertIcSt11char_traitsIcEERSt13basic_ostreamIT_T0_ES6_PKS3_l(%"class.std::basic_ostream"* nonnull dereferenceable(272) %call287, i8* nonnull getelementptr inbounds ([89 x i8], [89 x i8]* @.str.95, i64 0, i64 0), i64 88)
+          to label %invoke.cont288 unwind label %lpad283
+
+.noexc:                                           ; preds = %if.then.i.i
+  unreachable
+
+ehcleanup274:                                     ; preds = %if.then.i.i8.i, %ehcleanup269, %lpad109
+  %exn.slot.8 = phi i8* [ %64, %lpad109 ], [ %exn.slot.7, %ehcleanup269 ], [ %exn.slot.7, %if.then.i.i8.i ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %49) #1
+  br label %ehcleanup275
+
+invoke.cont290:                                   ; preds = %call1.i.noexc
+  store i32 1, i32* %threw_exc, align 4, !tbaa !2
+  call void @__cxa_end_catch()
+  br label %try.cont294
+
+ehcleanup264:                                     ; preds = %if.then.i.i8.i415, %ehcleanup258, %lpad127
+  %exn.slot.6 = phi i8* [ %68, %lpad127 ], [ %exn.slot.5, %ehcleanup258 ], [ %exn.slot.5, %if.then.i.i8.i415 ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %58) #1
+  %115 = load i32*, i32** %_M_start.i.i.i479, align 8, !tbaa !19
+  %tobool.i.i7.i409 = icmp eq i32* %115, null
+  br i1 %tobool.i.i7.i409, label %ehcleanup269, label %if.then.i.i8.i410
+
+ehcleanup269:                                     ; preds = %if.then.i.i8.i410, %ehcleanup264, %lpad118
+  %exn.slot.7 = phi i8* [ %66, %lpad118 ], [ %exn.slot.6, %ehcleanup264 ], [ %exn.slot.6, %if.then.i.i8.i410 ]
+  call void @llvm.lifetime.end.p0i8(i64 24, i8* nonnull %54) #1
+  %117 = load i32*, i32** %_M_start.i.i.i, align 8, !tbaa !19
+  %tobool.i.i7.i = icmp eq i32* %117, null
+  br i1 %tobool.i.i7.i, label %ehcleanup274, label %if.then.i.i8.i
+
+call1.i.noexc:                                    ; preds = %call.i.noexc
+  %call.i389 = invoke dereferenceable(272) %"class.std::basic_ostream"* @_ZNSo5flushEv(%"class.std::basic_ostream"* nonnull %call1.i386)
+          to label %invoke.cont290 unwind label %lpad283
+
+if.then.i.i8.i415:                                ; preds = %ehcleanup258
+  %114 = bitcast i32* %113 to i8*
+  call void @_ZdlPv(i8* %114) #1
+  br label %ehcleanup264
+
+if.end.i.i:                                       ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+  invoke void @_ZNKSt5ctypeIcE13_M_widen_initEv(%"class.std::ctype"* nonnull %125)
+          to label %.noexc392 unwind label %lpad283
+
+lpad254.body:                                     ; preds = %lpad.i, %lpad254
+  %eh.lpad-body = phi { i8*, i32 } [ %111, %lpad254 ], [ undef, %lpad.i ]
+  %112 = extractvalue { i8*, i32 } %eh.lpad-body, 0
+  br label %ehcleanup258
+
+ehcleanup258:                                     ; preds = %if.then.i.i437, %ehcleanup248, %cleanup.action, %lpad254.body, %lpad162
+  %exn.slot.5 = phi i8* [ %76, %lpad162 ], [ %exn.slot.4591, %cleanup.action ], [ %92, %ehcleanup248 ], [ %112, %lpad254.body ], [ %92, %if.then.i.i437 ]
+  %113 = load i32*, i32** %_M_start.i.i.i504, align 8, !tbaa !19
+  %tobool.i.i7.i414 = icmp eq i32* %113, null
+  br i1 %tobool.i.i7.i414, label %ehcleanup264, label %if.then.i.i8.i415
+
+if.then.i4.i:                                     ; preds = %_ZSt13__check_facetISt5ctypeIcEERKT_PS3_.exit.i
+  %arrayidx.i.i391 = getelementptr inbounds %"class.std::ctype", %"class.std::ctype"* %125, i64 0, i32 9, i64 10
+  %127 = load i8, i8* %arrayidx.i.i391, align 1, !tbaa !26
+  br label %call.i.noexc
+
+Remaining body input:   %mat_init.i = alloca %struct.MatrixInitOp, align 8
+Remaining body input:   %97 = add i32 %96, -1
+Remaining body input:   %myproc = alloca i32, align 4
+Remaining body input:   %2 = bitcast i32* %threw_exc to i8*
+Remaining body input:   %1 = bitcast i32* %myproc to i8*
+Remaining body input:   %global_throw = alloca i32, align 4
+Remaining body input:   %49 = bitcast %"class.std::vector.20"* %rows to i8*
+Remaining body input:   %threw_exc = alloca i32, align 4
+Remaining body input:   %58 = bitcast %"class.std::vector.20"* %row_coords to i8*
+Remaining body input:   %_M_start.i.i.i479 = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %row_offsets, i64 0, i32 0, i32 0, i32 0
+Remaining body input:   %95 = bitcast %struct.MatrixInitOp* %mat_init.i to i8*
+Remaining body input:   %54 = bitcast %"class.std::vector.20"* %row_offsets to i8*
+Remaining body input:   %_M_start.i.i.i = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %rows, i64 0, i32 0, i32 0, i32 0
+Remaining body input:   %_M_start.i.i.i504 = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %row_coords, i64 0, i32 0, i32 0, i32 0
+EL input: i32 %__begin.017.i.start
+EL input: i32 %end
+EL input:   %102 = select i1 %101, i32 2048, i32 %100
+EL input:   %mat_init.i = alloca %struct.MatrixInitOp, align 8
+EL input:   %97 = add i32 %96, -1
+EL input:   %myproc = alloca i32, align 4
+EL input:   %2 = bitcast i32* %threw_exc to i8*
+EL input:   %1 = bitcast i32* %myproc to i8*
+EL input:   %global_throw = alloca i32, align 4
+EL input:   %49 = bitcast %"class.std::vector.20"* %rows to i8*
+EL input:   %threw_exc = alloca i32, align 4
+EL input:   %58 = bitcast %"class.std::vector.20"* %row_coords to i8*
+EL input:   %_M_start.i.i.i479 = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %row_offsets, i64 0, i32 0, i32 0, i32 0
+EL input:   %95 = bitcast %struct.MatrixInitOp* %mat_init.i to i8*
+EL input:   %54 = bitcast %"class.std::vector.20"* %row_offsets to i8*
+EL input:   %_M_start.i.i.i = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %rows, i64 0, i32 0, i32 0, i32 0
+EL input:   %_M_start.i.i.i504 = getelementptr inbounds %"class.std::vector.20", %"class.std::vector.20"* %row_coords, i64 0, i32 0, i32 0, i32 0
+clang-5.0: /data/compilers/tapir/src-master/lib/Transforms/Tapir/LoopSpawning.cpp:1225: virtual bool {anonymous}::DACLoopSpawning::processLoop(): Assertion `Returns.empty() && "Returns cloned when cloning loop."' failed.
+#0 0x000000000295cd04 llvm::sys::PrintStackTrace(llvm::raw_ostream&) /data/compilers/tapir/src-master/lib/Support/Unix/Signals.inc:398:0
+#1 0x000000000295cd97 PrintStackTraceSignalHandler(void*) /data/compilers/tapir/src-master/lib/Support/Unix/Signals.inc:462:0
+#2 0x000000000295b29a llvm::sys::RunSignalHandlers() /data/compilers/tapir/src-master/lib/Support/Signals.cpp:49:0
+#3 0x000000000295c679 SignalHandler(int) /data/compilers/tapir/src-master/lib/Support/Unix/Signals.inc:252:0
+#4 0x00007efe8a7352c0 __restore_rt (/lib64/libpthread.so.0+0x122c0)
+#5 0x00007efe894b064b __GI_raise /usr/src/debug/glibc-2.25-23-gadc7e06/signal/../sysdeps/unix/sysv/linux/raise.c:51:0
+#6 0x00007efe894b2450 __GI_abort /usr/src/debug/glibc-2.25-23-gadc7e06/stdlib/abort.c:91:0
+#7 0x00007efe894a8d1a __assert_fail_base /usr/src/debug/glibc-2.25-23-gadc7e06/assert/assert.c:89:0
+#8 0x00007efe894a8d92 (/lib64/libc.so.6+0x2ed92)
+#9 0x000000000397053c (anonymous namespace)::DACLoopSpawning::processLoop() /data/compilers/tapir/src-master/lib/Transforms/Tapir/LoopSpawning.cpp:1225:0
+#10 0x0000000003972ed4 (anonymous namespace)::LoopSpawningImpl::processLoop(llvm::Loop*) /data/compilers/tapir/src-master/lib/Transforms/Tapir/LoopSpawning.cpp:1685:0
+#11 0x000000000397278e (anonymous namespace)::LoopSpawningImpl::run() /data/compilers/tapir/src-master/lib/Transforms/Tapir/LoopSpawning.cpp:1626:0
+#12 0x0000000003973675 (anonymous namespace)::LoopSpawning::runOnFunction(llvm::Function&) /data/compilers/tapir/src-master/lib/Transforms/Tapir/LoopSpawning.cpp:1817:0
+#13 0x00000000023452b1 llvm::FPPassManager::runOnFunction(llvm::Function&) /data/compilers/tapir/src-master/lib/IR/LegacyPassManager.cpp:1514:0
+#14 0x0000000002345432 llvm::FPPassManager::runOnModule(llvm::Module&) /data/compilers/tapir/src-master/lib/IR/LegacyPassManager.cpp:1535:0
+#15 0x0000000002345783 (anonymous namespace)::MPPassManager::runOnModule(llvm::Module&) /data/compilers/tapir/src-master/lib/IR/LegacyPassManager.cpp:1591:0
+#16 0x0000000002345e53 llvm::legacy::PassManagerImpl::run(llvm::Module&) /data/compilers/tapir/src-master/lib/IR/LegacyPassManager.cpp:1694:0
+#17 0x000000000234604b llvm::legacy::PassManager::run(llvm::Module&) /data/compilers/tapir/src-master/lib/IR/LegacyPassManager.cpp:1726:0
+#18 0x0000000002be9f1b (anonymous namespace)::EmitAssemblyHelper::EmitAssembly(clang::BackendAction, std::unique_ptr<llvm::raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream> >) /data/compilers/tapir/src-master/tools/clang/lib/CodeGen/BackendUtil.cpp:842:0
+#19 0x0000000002bebf1e clang::EmitBackendOutput(clang::DiagnosticsEngine&, clang::HeaderSearchOptions const&, clang::CodeGenOptions const&, clang::TargetOptions const&, clang::LangOptions const&, llvm::DataLayout const&, llvm::Module*, clang::BackendAction, std::unique_ptr<llvm::raw_pwrite_stream, std::default_delete<llvm::raw_pwrite_stream> >) /data/compilers/tapir/src-master/tools/clang/lib/CodeGen/BackendUtil.cpp:1192:0
+#20 0x00000000036b9184 clang::BackendConsumer::HandleTranslationUnit(clang::ASTContext&) /data/compilers/tapir/src-master/tools/clang/lib/CodeGen/CodeGenAction.cpp:261:0
+#21 0x00000000044447bb clang::ParseAST(clang::Sema&, bool, bool) /data/compilers/tapir/src-master/tools/clang/lib/Parse/ParseAST.cpp:161:0
+#22 0x00000000031ed7f5 clang::ASTFrontendAction::ExecuteAction() /data/compilers/tapir/src-master/tools/clang/lib/Frontend/FrontendAction.cpp:1003:0
+#23 0x00000000036b71c8 clang::CodeGenAction::ExecuteAction() /data/compilers/tapir/src-master/tools/clang/lib/CodeGen/CodeGenAction.cpp:993:0
+#24 0x00000000031ed24f clang::FrontendAction::Execute() /data/compilers/tapir/src-master/tools/clang/lib/Frontend/FrontendAction.cpp:906:0
+#25 0x000000000318d2b7 clang::CompilerInstance::ExecuteAction(clang::FrontendAction&) /data/compilers/tapir/src-master/tools/clang/lib/Frontend/CompilerInstance.cpp:981:0
+#26 0x00000000033276c1 clang::ExecuteCompilerInvocation(clang::CompilerInstance*) /data/compilers/tapir/src-master/tools/clang/lib/FrontendTool/ExecuteCompilerInvocation.cpp:251:0
+#27 0x00000000017e8060 cc1_main(llvm::ArrayRef<char const*>, char const*, void*) /data/compilers/tapir/src-master/tools/clang/tools/driver/cc1_main.cpp:221:0
+#28 0x00000000017dda05 ExecuteCC1Tool(llvm::ArrayRef<char const*>, llvm::StringRef) /data/compilers/tapir/src-master/tools/clang/tools/driver/driver.cpp:306:0
+#29 0x00000000017de557 main /data/compilers/tapir/src-master/tools/clang/tools/driver/driver.cpp:387:0
+#30 0x00007efe8949a4da __libc_start_main /usr/src/debug/glibc-2.25-23-gadc7e06/csu/../csu/libc-start.c:329:0
+#31 0x00000000017db2da _start (/data/compilers/tapir/src-master/build-dbg/bin/clang-5.0+0x17db2da)
+Stack dump:
+0.	Program arguments: /data/compilers/tapir/src-master/build-dbg/bin/clang-5.0 -cc1 -triple x86_64-unknown-linux-gnu -emit-obj -disable-free -main-file-name main.cpp -mrelocation-model static -mthread-model posix -fmath-errno -masm-verbose -mconstructor-aliases -munwind-tables -fuse-init-array -target-cpu x86-64 -target-feature +avx -momit-leaf-frame-pointer -dwarf-column-info -debugger-tuning=gdb -coverage-notes-file /data/compilers/tests/miniFE/miniFE-2.0_cilk/src/main.gcno -resource-dir /data/compilers/tapir/src-master/build-dbg/lib/clang/5.0.0 -I . -I ../utils -I ../fem -D MINIFE_SCALAR=double -D MINIFE_LOCAL_ORDINAL=int -D MINIFE_GLOBAL_ORDINAL=int -D MINIFE_CSR_MATRIX -D HAVE_MPI -D MPICH_IGNORE_CXX_SEEK -D MINIFE_INFO=1 -D MINIFE_KERNELS=0 -I /usr/include/openmpi-x86_64 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7 -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/x86_64-redhat-linux -internal-isystem /usr/lib/gcc/x86_64-redhat-linux/7/../../../../include/c++/7/backward -internal-isystem /usr/local/include -internal-isystem /data/compilers/tapir/src-master/build-dbg/lib/clang/5.0.0/include -internal-externc-isystem /include -internal-externc-isystem /usr/include -O2 -fdeprecated-macro -fdebug-compilation-dir /data/compilers/tests/miniFE/miniFE-2.0_cilk/src -ferror-limit 19 -fmessage-length 0 -fcilkplus -pthread -fobjc-runtime=gcc -fcxx-exceptions -fexceptions -fdiagnostics-show-option -vectorize-loops -vectorize-slp -mllvm -debug-only=loop-spawning -o main.o -x c++ main.cpp 
+1.	<eof> parser at end of file
+2.	Per-module optimization passes
+3.	Running pass 'Function Pass Manager' on module 'main.cpp'.
+4.	Running pass 'Loop Spawning' on function '@_ZN6miniFE25generate_matrix_structureINS_9CSRMatrixIdiiEEEEiRKNS_23simple_mesh_descriptionINT_17GlobalOrdinalTypeEEERS4_'
+clang-5.0: error: unable to execute command: Aborted (core dumped)
+clang-5.0: error: clang frontend command failed due to signal (use -v to see invocation)
+clang version 5.0.0 (git@github.com:wsmoses/Cilk-Clang.git 51d7b71ff6cb4c026e18ea212e57b979e7b78896) (git@github.com:wsmoses/Parallel-IR.git b29f3a147923b0dd0ebf6810fe265fe93fa7f5dc)
+Target: x86_64-unknown-linux-gnu
+Thread model: posix
+InstalledDir: /data/compilers/tapir/src-master/build-dbg/bin
+clang-5.0: note: diagnostic msg: PLEASE submit a bug report to http://llvm.org/bugs/ and include the crash backtrace, preprocessed source, and associated run script.
+clang-5.0: note: diagnostic msg: 
+********************
+
+PLEASE ATTACH THE FOLLOWING FILES TO THE BUG REPORT:
+Preprocessed source(s) and associated run script(s) are located at:
+clang-5.0: note: diagnostic msg: /tmp/main-8ceb63.cpp
+clang-5.0: note: diagnostic msg: /tmp/main-8ceb63.sh
+clang-5.0: note: diagnostic msg: 
+
+********************
+make: *** [make_targets:35: main.o] Error 254

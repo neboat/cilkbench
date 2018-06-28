@@ -1,0 +1,57 @@
+# sudo ./run.sh cilk simlarge xxx 1
+# sudo ./run.sh cilk simlarge xxx 2
+# sudo ./run.sh cilk simlarge xxx 4
+# sudo ./run.sh cilk simlarge xxx 8
+# sudo ./run.sh cilk simlarge xxx 12
+# sudo ./run.sh cilk simlarge xxx 16
+# #
+# sudo ./run.sh cilk native xxx 1
+# sudo ./run.sh cilk native xxx 2
+# sudo ./run.sh cilk native xxx 4
+# sudo ./run.sh cilk native xxx 8
+# sudo ./run.sh cilk native xxx 12
+# sudo ./run.sh cilk native xxx 16
+# #
+# ./run.sh serial simlarge xxx 1
+# ./run.sh serial native xxx 1
+#
+./run.sh parsec3-tbb simlarge xxx 1 1
+./run.sh parsec3-tbb simlarge xxx 2 8
+./run.sh parsec3-tbb simlarge xxx 4 16
+./run.sh parsec3-tbb simlarge xxx 8 32
+./run.sh parsec3-tbb simlarge xxx 12 48
+./run.sh parsec3-tbb simlarge xxx 16 64
+#
+./run.sh parsec3-tbb native xxx 1 1
+./run.sh parsec3-tbb native xxx 2 8
+./run.sh parsec3-tbb native xxx 4 16
+./run.sh parsec3-tbb native xxx 8 32
+./run.sh parsec3-tbb native xxx 12 48
+./run.sh parsec3-tbb native xxx 16 64
+#
+# taskset -c 1 ./run.sh pthreads simlarge xxx 1 1
+taskset -c 1 ./run.sh pthreads simlarge xxx 1 4
+taskset -c 0-1 ./run.sh pthreads simlarge xxx  2 8
+taskset -c 0-1 ./run.sh pthreads simlarge xxx  2
+taskset -c 0-3 ./run.sh pthreads simlarge xxx  4 16
+taskset -c 0-3 ./run.sh pthreads simlarge xxx  4
+taskset -c 0-7 ./run.sh pthreads simlarge xxx 8 32
+taskset -c 0-7 ./run.sh pthreads simlarge xxx 8
+taskset -c 0-11 ./run.sh pthreads simlarge xxx  8 48
+taskset -c 0-11 ./run.sh pthreads simlarge xxx  8
+taskset -c 0-15 ./run.sh pthreads simlarge xxx  8 64
+taskset -c 0-15 ./run.sh pthreads simlarge xxx  8
+#
+# taskset -c 1 ./run.sh pthreads native xxx 1 1
+taskset -c 1 ./run.sh pthreads native xxx 1 4
+taskset -c 0-1 ./run.sh pthreads native xxx  2 8
+taskset -c 0-1 ./run.sh pthreads native xxx  2
+taskset -c 0-3 ./run.sh pthreads native xxx  4 16
+taskset -c 0-3 ./run.sh pthreads native xxx  4
+taskset -c 0-7 ./run.sh pthreads native xxx 8 32
+taskset -c 0-7 ./run.sh pthreads native xxx 8
+taskset -c 0-11 ./run.sh pthreads native xxx  8 48
+taskset -c 0-11 ./run.sh pthreads native xxx  8
+taskset -c 0-15 ./run.sh pthreads native xxx  8 64
+taskset -c 0-15 ./run.sh pthreads native xxx  8
+#

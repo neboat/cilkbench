@@ -1,0 +1,28 @@
+To setup this benchmark, you will need to unpack the data necessary to run
+ferret and compile the source.
+
+The source comes with 5 versions: 
+serial: pure serial code
+tbb: an implementation using TBB pipeline constructs as documented in [1] 
+parsec3-tbb: a similar TBB implementation that came with Parsec 3.0 release  
+pthreads: a pthreaded implementation that came with Parsec 3.0 release
+cilk: a hand compiled Cilk implementation running on Cilk-M 0.9
+ 
+To make each version, go into the src/ directory and type 'make'.
+Alternatively, type 'make $version' for each of the version listed above.
+
+To run the benchmark, you will first need to setup the image database:
+cd into the input/ directory and do ./unpack.sh
+
+Finally, to run, execute the various run scripts in the top directory.
+
+Reference:
+[1] E. C. Reed, N. Chen, and R. E. Johnson. Expressing pipeline parallelism
+using TBB constructs: a case study on what works and what doesn't. 
+In Proceedings of the Workshop on Transitioning to MultiCore (TMC) at the ACM 
+Systems, Programming, Languages and Applications: Software for 
+Humanity (SPLASH) Conference, SPLASH '11 Workshops, pp. 133-138, 2011. 
+
+Note: may need to install the following packages:
+libgsl0-dev
+libjepg62-dev
