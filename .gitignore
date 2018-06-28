@@ -52,6 +52,7 @@ pbbs/testData/graphData/randLocalGraph
 pbbs/testData/graphData/rMatGraph
 pbbs/testData/sequenceData/data/*
 pbbs/testData/sequenceData/addDataSeq
+pbbs/testData/sequenceData/almostSortedSeq
 pbbs/testData/sequenceData/exptSeq
 pbbs/testData/sequenceData/randomSeq
 pbbs/testData/sequenceData/trigramSeq
