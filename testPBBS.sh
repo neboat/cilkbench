@@ -93,7 +93,7 @@ for Test in $ALLTESTS; do
 	    # CILK_NWORKERS=$P taskset -c 8-$(($P+7)) numactl -i all ./testInputs -x -r $NUMTRIALS -p $P
 	    
 	done
-	unsert TAPIR_PCC
+	unset TAPIR_PCC
 	echo "popd"
 	popd
     done
