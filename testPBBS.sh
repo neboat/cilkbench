@@ -49,13 +49,13 @@ for Test in $ALLTESTS; do
 	    cd -
 	fi
 	case $Compiler in
-	    "tapir") TAPIR_BASE=$TAPIR_BASE make $DEBUG_STR;;
-	    "ref") REF_BASE=$REF_BASE make $DEBUG_STR REF=1;;
-	    "stapir") TAPIR_BASE=$TAPIR_BASE make $DEBUG_STR SERIAL=1; WORKERS="1";;
-	    "sref") REF_BASE=$REF_BASE make $DEBUG_STR REF=1 SERIAL=1; WORKERS="1";;
-	    "serial") TAPIR_BASE=$TAPIR_BASE make $DEBUG_STR ORIG=1 SERIAL=1; WORKERS="1";;
-	    "gcc") TAPIR_BASE=$TAPIR_BASE make $DEBUG_STR GCC=1;;
-	    "sgcc") TAPIR_BASE=$TAPIR_BASE make $DEBUG_STR GCC=1 SERIAL=1; WORKERS="1";;
+	    "tapir") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR;;
+	    "ref") REF_CC=$REF_PATH/clang++ make $DEBUG_STR REF=1;;
+	    "stapir") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR SERIAL=1; WORKERS="1";;
+	    "sref") REF_CC=$REF_PATH/clang++ make $DEBUG_STR REF=1 SERIAL=1; WORKERS="1";;
+	    "serial") TAPIR_CC=$TAPIR_CXX make $DEBUG_STR ORIG=1 SERIAL=1; WORKERS="1";;
+	    "gcc") make $DEBUG_STR GCC=1;;
+	    "sgcc") make $DEBUG_STR GCC=1 SERIAL=1; WORKERS="1";;
 	    *) echo "Unknown compiler $1"; exit 1;;
 	esac
 	# if [[ ($Compiler == "stapir") ||

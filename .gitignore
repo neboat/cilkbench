@@ -103,7 +103,6 @@ pbbs/*/*/serialHash.h
 pbbs/*/*/serialSort.h
 pbbs/*/*/speculative_for.h
 pbbs/*/*/stlParallelSort.h
-pbbs/*/*/tapir-config.mk
 pbbs/*/*/topologyFromTri.C
 pbbs/*/*/topology.h
 pbbs/*/*/transpose.h
@@ -151,7 +150,6 @@ pbbs/*/*/utils.h
 !pbbs/common/serialSort.h
 !pbbs/common/speculative_for.h
 !pbbs/common/stlParallelSort.h
-!pbbs/common/tapir-config.mk
 !pbbs/common/topologyFromTri.C
 !pbbs/common/topology.h
 !pbbs/common/transpose.h
