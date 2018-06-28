@@ -1,0 +1,14 @@
+Mandelbrot Sample
+
+License Information Follows
+---------------------------
+* src\main.cpp, 
+* src\image_base.h
+* src\bmp_image.cpp, src\bmp_image.h
+* src\mandelbrot.cpp, src\mandelbrot.h
+* src\timer.cpp, src\timer.h
+* readme.html, Makefile, Build.bat
+
+Copyright 2011-2013 Intel Corporation
+
+* license: http://software.intel.com/en-us/articles/intel-sample-source-code-license-agreement/  
