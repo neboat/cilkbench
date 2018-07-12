@@ -1,6 +1,10 @@
 # cilkbench
 Cilk application benchmark programs.  These benchmark programs have been drawn from various suites, including the Cilk-5 benchmark suite, demonstration Intel Cilk Plus programs, and the Problem-Based Benchmark Suite (PBBS).
 
+## Downloading the suite
+
+You will need to install [Git LFS](https://git-lfs.github.com/) to download the large input files used by some tests in this suite.  Installation instructions for Git LFS can be found on the Git LFS Wiki: https://github.com/git-lfs/git-lfs/wiki/Installation.
+
 ## Dependencies
 
 These scripts are designed to be compiled and run using the Tapir/LLVM compiler.  These scripts also require a Cilk runtime-system library.  These scripts also use the `setarch`, `taskset`, `numactl`, and `ionice` commands to quiesce program execution.
