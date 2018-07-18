@@ -103,10 +103,10 @@ Unless otherwise stated in a source file or subdirectory, all code in this repos
 
 # References
 
-M. Frigo, C. E. Leiserson, and K. H. Randall. "The implementation of the Cilk-5 multithreaded language." ACM PLDI, 1998, pp. 212-223.  https://doi.org/10.1145/277650.277725
+M. Frigo, C. E. Leiserson, and K. H. Randall. "The Implementation of the Cilk-5 Multithreaded Language." ACM PLDI, 1998, pp. 212-223.  https://doi.org/10.1145/277650.277725
 
 Intel Corporation.  "Intel C++ Compiler Code Samples."  Submitted December 31, 2014.  Available from https://software.intel.com/en-us/code-samples/intel-compiler/intel-compiler-features/IntelCilkPlus
 
-T. B. Schardl, W. S. Moses, and C. E. Leiserson.  "Tapir: Embedding Fork-Join Parallelism into LLVM's Intermediate Representation."  ACM PPoPP, February 2017, pp. 249-265.  Won Best Paper Award. http://dl.acm.org/citation.cfm?id=3018758
+T. B. Schardl, W. S. Moses, and C. E. Leiserson.  "Tapir: Embedding Fork-Join Parallelism into LLVM's Intermediate Representation."  ACM PPoPP, 2017, pp. 249-265.  Won Best Paper Award.  http://dl.acm.org/citation.cfm?id=3018758
 
-J. Shun, G. E. Blelloch, J. T. Fineman, P. B. Gibbons, A. Kyrola, H. V. Simhadri, and K. Tangwongsan. "Brief Announcement: The Problem Based Benchmark Suite."  ACM SPAA, 2012, pp. 68-70. http://dx.doi.org/10.1145/2312005.2312018
+J. Shun, G. E. Blelloch, J. T. Fineman, P. B. Gibbons, A. Kyrola, H. V. Simhadri, and K. Tangwongsan. "Brief Announcement: The Problem Based Benchmark Suite."  ACM SPAA, 2012, pp. 68-70.  http://dx.doi.org/10.1145/2312005.2312018
