@@ -190,7 +190,9 @@ if [[ $DEFAULT -eq 1 ]]; then
     RUN_CILK_TESTS=1
     RUN_INTEL_TESTS=1
     RUN_PBBS_TESTS=1
-    ARGS="-t"
+    RUN_MINIFE_TEST=1
+    RUN_REDUCER_TESTS=1
+    # ARGS="-t"
 fi
 
 if [[ $RUN_P2_TESTS -eq 1 ]]; then
