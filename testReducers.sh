@@ -151,7 +151,7 @@ RunTest() {
 	echo "<FAILED>"
     else
 	echo "<$Compiler $Test $Worker>"
-	grep -i "time" $Results | sort | sed '/^\s*$/d' | head -n $Trials
+	grep -i "time" $Results | sort -bn | sed '/^\s*$/d' | head -n $Trials
     fi
     return $Failed
 }

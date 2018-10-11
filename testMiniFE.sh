@@ -128,7 +128,7 @@ RunTest() {
 	echo "<FAILED>"
     else
 	echo "<$Compiler $Test $Worker>"
-	grep "real" $Results | sort | sed '/^\s*$/d' | head -n $Trials
+	grep "real" $Results | sort -bn | sed '/^\s*$/d' | head -n $Trials
     fi
     return $Failed
 }

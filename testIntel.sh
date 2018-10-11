@@ -69,7 +69,7 @@ CompileAndRunTest() {
 	echo "<FAILED>"
     else
 	echo "<$Compiler $Test $Worker>"
-	sort $Results | sed '/^\s*$/d' | head -n $Trials
+	grep "^[0-9]" $Results | sort -n | sed '/^\s*$/d' | head -n $Trials
     fi
     return $Failed
 }
