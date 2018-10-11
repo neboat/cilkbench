@@ -18,9 +18,9 @@ TEST_RUN () {
 CHECK_RUN () {
     case $1 in
 	"dedup-reducer") echo "./run.sh cilk small out";;
-	"ferret-reducer") echo "./run.sh reducer small out";;
+	"ferret-reducer") echo "./run.sh reducer simsmall out";;
 	"dedup-serial") echo "./run.sh serial small out";;
-	"ferret-serial") echo "./run.sh serial small out";;
+	"ferret-serial") echo "./run.sh serial simsmall out";;
 	*) echo "INVALID CODE CASE $1"; exit;;
     esac
 }
@@ -136,13 +136,13 @@ RunTest() {
     rm -rf $Results
     Failed=0
     if [[ $CHECK_CORRECTNESS -ne 0 ]]; then
-	echo "CILK_NWORKERS=$Worker ./$Test $(CHECK_RUN_ARGS $Test)"
-	CILK_NWORKERS=$Worker ./$Test $(CHECK_RUN_ARGS $Test)
+	echo "CILK_NWORKERS=$Worker $(CHECK_RUN $Test)"
+	CILK_NWORKERS=$Worker $(CHECK_RUN $Test)
     fi
-    # echo "CILK_NWORKERS=$Worker taskset -c 0-$(($Worker-1)) numactl -i all ./$Test $(TEST_RUN_ARGS $Test) >> $Results 2>&1"
+    # echo "CILK_NWORKERS=$Worker taskset -c 0-$(($Worker-1)) numactl -i all $(TEST_RUN $Test) >> $Results 2>&1"
     # (RUN_ON_P_WORKERS $Worker "$(TEST_RUN $Test)")
     for Trial in `seq 1 $Trials`; do
-	# CILK_NWORKERS=$Worker taskset -c 0-$(($Worker-1)) numactl -i all ./$Test $(TEST_RUN_ARGS $Test) >> $Results 2>&1
+	# CILK_NWORKERS=$Worker taskset -c 0-$(($Worker-1)) numactl -i all $(TEST_RUN $Test) >> $Results 2>&1
 	(RUN_ON_P_WORKERS $Worker "$(TEST_RUN $Test)") >> $Results 2>&1
 	Failed=$Failed||$?
     done
