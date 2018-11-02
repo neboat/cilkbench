@@ -54,6 +54,8 @@ CILKSCALE_CFLAGS="-flto -fcsi"
 CILKSCALE_LDFLAGS="-flto -fuse-ld=gold -L$TAPIR_LIB"
 CILKSCALE_LDLIBS="-lclang_rt.cilkscale-x86_64"
 
+JEMALLOC_LDLIBS="-L`jemalloc-config --libdir` -Wl,-rpath,`jemalloc-config --libdir` -ljemalloc `jemalloc-config --libs`"
+
 C_COMPILER() {
     case $1 in
 	"tapir") echo "$TAPIR_CC $TAPIR_CILK_FLAG";;
