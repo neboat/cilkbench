@@ -156,12 +156,7 @@ int divide(int lb, int ub, double **neww,
   if (ub - lb > leafmaxcol) {
     int _tmp;
     int l = 0, r;
-
-#ifdef PIR
-    cilk_spawn { l = divide(lb, (ub + lb) / 2, neww, old, mode, timestep); };
-#else
     l = cilk_spawn divide(lb, (ub + lb) / 2, neww, old, mode, timestep);
-#endif
     r = divide((ub + lb) / 2, ub, neww, old, mode, timestep);
     cilk_sync;
 

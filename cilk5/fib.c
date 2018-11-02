@@ -40,11 +40,7 @@ int fib(int n) {
         /* int x = 0; */
         /* int y = 0; */
       int x, y;
-#ifdef PIR
-        cilk_spawn { x = fib(n - 1); };
-#else
 	x = cilk_spawn fib(n - 1);
-#endif
         y = fib(n - 2);
         cilk_sync;
 
