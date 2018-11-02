@@ -37,9 +37,10 @@ unsigned char* cilk_mandelbrot(double x0, double y0, double x1, double y1,
   double xstep = (x1 - x0) / width;
   double ystep = (y1 - y0) / height;
   unsigned char* output = static_cast<unsigned char*>(_mm_malloc(width * height * sizeof(unsigned char), 64));
+  //unsigned char *output = static_cast<unsigned char *>(aligned_alloc(64, width * height * sizeof(unsigned char)));
   // Traverse the sample space in equally spaced steps with width * height samples
   cilk_for(int j = 0; j < height; ++j) {
-    for (int i = 0; i < width; ++i) {
+    cilk_for (int i = 0; i < width; ++i) {
       double z_real = x0 + i*xstep;
       double z_imaginary = y0 + j*ystep;
       double c_real = z_real;
