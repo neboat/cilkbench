@@ -56,7 +56,7 @@ SERIAL_FLAGS =
 ifeq ($(SERIAL),1)
 PCFLAGS = -std=c++11 -mcx16 -march=native -O2 -DMCX16 $(INTT) $(SDSLCF)
 PLFLAGS = -ldl $(SDSLLF)
-TAPIR_CFLAGS = -DTAPIR -ffast-math -O3 $(SERIAL_FLAGS) $(EXTRA_CFLAGS)
+TAPIR_CFLAGS = -DTAPIR -O3 $(SERIAL_FLAGS) $(EXTRA_CFLAGS) # -ffast-math
 TAPIR_LFLAGS = $(EXTRA_LDFLAGS)
 endif
 
@@ -71,10 +71,10 @@ TAPIR_CFLAGS +=
 TAPIR_LFLAGS =
 else ifeq ($(REF),1)
 TAPIR_PCC = $(REF_CC)
-TAPIR_CFLAGS += -DTAPIR -ffast-math -O3 $(EXTRA_CFLAGS) # -DPIR -fno-exceptions
+TAPIR_CFLAGS += -DTAPIR -O3 $(EXTRA_CFLAGS) # -DPIR -fno-exceptions -ffast-math
 TAPIR_LFLAGS += $(EXTRA_LDFLAGS)
 else
-TAPIR_CFLAGS += -DTAPIR -ffast-math -O3 $(EXTRA_CFLAGS) # -fcilkplus -ffast-math $(EXTRA_CFLAGS) # -Rpass=.* -Rpass-analysis=.*
+TAPIR_CFLAGS += -DTAPIR -O3 $(EXTRA_CFLAGS) # -fcilkplus -ffast-math $(EXTRA_CFLAGS) # -Rpass=.* -Rpass-analysis=.*
 TAPIR_LFLAGS += $(EXTRA_LDFLAGS) # -fcilkplus $(EXTRA_LDFLAGS)
 endif
 
