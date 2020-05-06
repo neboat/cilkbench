@@ -82,26 +82,26 @@ pbbs/breadthFirstSearch/hybridBFS \
 pbbs/nBody/parallelBarnesHut"
 
 PBBS_RELEASED="pbbs/breadthFirstSearch/deterministicBFS \
-pbbs/breadthFirstSearch/ndBFS \
-pbbs/comparisonSort/sampleSort \
-pbbs/convexHull/quickHull \
-pbbs/delaunayTriangulation/incrementalDelaunay \
-pbbs/delaunayRefine/incrementalRefine \
-pbbs/dictionary/deterministicHash \
-pbbs/integerSort/blockRadixSort \
-pbbs/maximalIndependentSet/incrementalMIS \
-pbbs/maximalIndependentSet/ndMIS \
-pbbs/maximalMatching/incrementalMatching \
-pbbs/maximalMatching/ndMatching \
-pbbs/minSpanningForest/parallelKruskal \
-pbbs/nBody/parallelCK \
+pbbs/suffixArray/parallelRange \
 pbbs/nearestNeighbors/octTree2Neighbors \
-pbbs/rayCast/kdTree \
+pbbs/integerSort/blockRadixSort \
+pbbs/dictionary/deterministicHash \
+pbbs/maximalIndependentSet/incrementalMIS \
 pbbs/removeDuplicates/deterministicHash \
+pbbs/maximalIndependentSet/ndMIS \
+pbbs/rayCast/kdTree \
+pbbs/maximalMatching/ndMatching \
+pbbs/convexHull/quickHull \
+pbbs/maximalMatching/incrementalMatching \
+pbbs/comparisonSort/sampleSort \
+pbbs/breadthFirstSearch/ndBFS \
 pbbs/spanningForest/incrementalST \
 pbbs/spanningForest/ndST \
 pbbs/suffixArray/parallelKS \
-pbbs/suffixArray/parallelRange"
+pbbs/delaunayTriangulation/incrementalDelaunay \
+pbbs/minSpanningForest/parallelKruskal \
+pbbs/delaunayRefine/incrementalRefine \
+pbbs/nBody/parallelCK"
 
 PBBS_STABLE="$PBBS_RELEASED \
 pbbs/comparisonSort/quickSort \
