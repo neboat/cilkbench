@@ -6,7 +6,9 @@ SRCDIR := src
 BUILDDIR := release
 # CFLAGS := -O2 -xAVX 
 EXTRA_CFLAGS ?=
-LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS) # -lcilkrts
+# LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS) # -lcilkrts
+CILKFLAG ?= -fcilkplus
+LIBFLAGS := $(CILKFLAG) $(EXTRA_LDFLAGS) # -lcilkrts
 option := res/nahelam.bmp res/nahelam1.bmp
 ifdef vecreport
 	CFLAGS += -vec-report1

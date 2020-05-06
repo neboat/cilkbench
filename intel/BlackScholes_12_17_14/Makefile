@@ -5,7 +5,9 @@ COMPILER ?= gcc
 SRCDIR := src
 BUILDDIR := release
 EXTRA_CFLAGS ?=
-LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS) # -vec-report1
+# LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS) # -vec-report1
+CILKFLAG ?= -fcilkplus
+LIBFLAGS := $(CILKFLAG) $(EXTRA_LDFLAGS) # -vec-report1
 
 ifdef perf_num
 	EXTRA_CFLAGS += -D PERF_NUM

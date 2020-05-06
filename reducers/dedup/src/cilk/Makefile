@@ -7,6 +7,7 @@ TARGET = dedup
 
 CC ?= clang
 CXX ?= clang++
+CILKFLAG ?= -fcilkplus
 
 .PHONY: all clean serial reducer check
 
@@ -49,8 +50,8 @@ $(warning "CPPFLAGS is $(CPPFLAGS),  CFLAGS is $(CFLAGS)")
 
 # Modify the following variables if source code moves location
 # cilkm_top_dir := $(HOME)/sandbox/MIT/cilkm_src
-CILK_FLAGS := -DCILK -DHAVE_CONFIG_H -O3 -fcilkplus # -H
-CILK_CPPFLAGS := -DCILK -DHAVE_CONFIG_H -O3 -fcilkplus # -H
+CILK_FLAGS := -DCILK -DHAVE_CONFIG_H -O3 $(CILKFLAG) # -H
+CILK_CPPFLAGS := -DCILK -DHAVE_CONFIG_H -O3 $(CILKFLAG) # -H
 
 # Some setup for checking versions.
 

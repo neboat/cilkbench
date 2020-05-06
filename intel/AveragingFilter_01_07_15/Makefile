@@ -2,10 +2,13 @@ CXX ?= icpc
 SRCDIR := src
 BUILDDIR := release
 # CFLAGS := -restrict -xAVX -O2 -ipo
-CFLAGS := -fcilkplus -std=c++11 -O3 -march=native -D __INTEL_COMPILER
+# CFLAGS := -fcilkplus -std=c++11 -O3 -march=native -D __INTEL_COMPILER
+CFLAGS := -std=c++11 -O3 -march=native -D __INTEL_COMPILER
 EXTRA_CFLAGS ?=
 EXTRA_LDFLAGS ?=
-LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS)
+# LIBFLAGS := -fcilkplus $(EXTRA_LDFLAGS)
+CILKFLAG ?= -fopencilk
+LIBFLAGS := $(CILKFLAG) $(EXTRA_LDFLAGS)
 option := res/nahelam.bmp res/nahelam1.bmp
 # vecreport := 1
 perf_num := 1

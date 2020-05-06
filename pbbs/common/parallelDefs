@@ -15,6 +15,11 @@ PCC = /opt/intel/bin/icpc
 PCFLAGS = -O2 -DCILKP $(INTT) $(SDSLCF)
 PLFLAGS = 
 
+else ifdef OPENCILK
+PCC = clang++
+PCFLAGS = -std=c++11 $(CILKFLAG) -mcx16 -march=native -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
+PLFLAGS = -ldl $(CILKFLAG) $(SDSLLF)
+
 else ifdef CCILK
 PCC = clang++
 PCFLAGS =  -fcilkplus -mcx16 -O2 -DCILKP -DMCX16 $(INTT) $(SDSLCF)
@@ -64,13 +69,13 @@ TAPIR_PCC ?= clang++
 
 ifeq ($(GCC), 1)
 TAPIR_PCC = g++
-TAPIR_CFLAGS += -fcilkplus
-TAPIR_LFLAGS = -fcilkplus
+TAPIR_CFLAGS += -fcilkplus -O3 $(EXTRA_CFLAGS)
+TAPIR_LFLAGS = -fcilkplus $(EXTRA_LDFLAGS)
 else ifeq ($(ORIG),1)
 TAPIR_CFLAGS +=
 TAPIR_LFLAGS =
 else ifeq ($(REF),1)
-TAPIR_PCC = $(REF_CC)
+#TAPIR_PCC = $(REF_CC)
 TAPIR_CFLAGS += -DTAPIR -O3 $(EXTRA_CFLAGS) # -DPIR -fno-exceptions -ffast-math
 TAPIR_LFLAGS += $(EXTRA_LDFLAGS)
 else

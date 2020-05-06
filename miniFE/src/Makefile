@@ -10,7 +10,7 @@ MINIFE_MATRIX_TYPE = -DMINIFE_CSR_MATRIX
 
 #-----------------------------------------------------------------------
 
-CFLAGS = -O2 -mavx -fcilkplus $(EXTRA_CFLAGS)
+CFLAGS = -O2 -mavx $(CILKFLAG) $(EXTRA_CFLAGS)
 CXXFLAGS = $(CFLAGS)
 
 # For debugging, the macro MINIFE_DEBUG will cause miniFE to dump a log file
@@ -27,7 +27,7 @@ LIBS=
 # The MPICH_IGNORE_CXX_SEEK macro is required for some mpich versions,
 # such as the one on my cygwin machine.
 
-TAPIR_BASE ?= /data/compilers/tapir/src-release_60
+# TAPIR_BASE ?= /data/compilers/tapir/src-release_80
 
 MPICC=/usr/lib64/openmpi/bin/mpicc
 MPICXX=/usr/lib64/openmpi/bin/mpic++

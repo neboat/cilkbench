@@ -3,11 +3,11 @@ CXX ?= g++
 
 CFLAGS := -O3 # -march=native
 
-CFLAGS += $(OPTFLAGS) -fcilkplus
-CXXFLAGS += $(OPTFLAGS) -fcilkplus
+CFLAGS += $(OPTFLAGS)
+CXXFLAGS += $(OPTFLAGS)
 
 LINK.o = $(CXX) $(LDFLAGS) $(TARGET_ARCH)
-LDFLAGS += -lcilkrts
+LDFLAGS += # -lcilkrts
 
 $(BUILDDIR)/%.o: $(SRCDIR)/%.cpp
 	@mkdir -p $(BUILDDIR)

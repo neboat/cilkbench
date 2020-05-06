@@ -20,7 +20,8 @@ OBJDIR = $(ROOT)/build/obj
 
 CC ?= clang
 CXX ?= clang++
-CFLAGS ?= -O3 -g -fcilkplus -I$(INCDIR) $(EXTRA_CFLAGS)
+CILKFLAG ?= -fcilkplus
+CFLAGS ?= -O3 -g $(CILKFLAG) -I$(INCDIR) $(EXTRA_CFLAGS)
 LDFLAGS += -L$(LIBDIR) $(EXTRA_LDFLAGS)
 
 TARGET = $(addprefix $(BINDIR)/ferret-, $(PROG))

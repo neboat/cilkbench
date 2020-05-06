@@ -31,7 +31,9 @@ for Test in $ALLTESTS; do
 	make cleansrc
 	cd -
 	export TAPIR=1
-	export GCILK11=1
+	#export GCILK11=1
+	export OPENCILK=1
+	export CILKFLAG=$(CILKFLAG $Compiler)
 	make cleansrc
 	WORKERS=$WORKERS_TO_TEST
 	if [[ $CHECK_CILKSAN -ne 0 ]]; then
@@ -50,7 +52,7 @@ for Test in $ALLTESTS; do
 	fi
 	case $Compiler in
 	    "tapir") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR;;
-	    "ref") export TAPIR_PCC=$REF_PATH/clang++; make $DEBUG_STR REF=1;;
+	    "ref") export TAPIR_PCC="$REF_PATH/clang++"; make $DEBUG_STR REF=1;;
 	    "stapir") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR SERIAL=1; WORKERS="1";;
 	    "sref") export TAPIR_PCC=$REF_PATH/clang++; make $DEBUG_STR REF=1 SERIAL=1; WORKERS="1";;
 	    "serial") export TAPIR_PCC=$TAPIR_CXX; make $DEBUG_STR ORIG=1 SERIAL=1; WORKERS="1";;

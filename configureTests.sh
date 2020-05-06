@@ -36,8 +36,10 @@ else
     TAPIR_LIB=/usr/lib/clang/`$TAPIR_CC --version | perl -pe '($_)=/([0-9]+([.][0-9]+)+)/'`/lib/linux
 fi
 echo $TAPIR_LIB
+echo $REF_PATH
 
-TAPIR_CILK_FLAG=-fcilkplus
+#TAPIR_CILK_FLAG=-fcilkplus
+TAPIR_CILK_FLAG=-fopencilk
 REF_CILK_FLAG=-fcilkplus #-fdetach
 GCC_CILK_FLAG=-fcilkplus
 
@@ -78,6 +80,19 @@ CXX_COMPILER() {
 	"serial") echo "$TAPIR_CXX $SERIAL_CFLAGS";;
 	"gcc") echo "g++ $GCC_CILK_FLAG";;
 	"sgcc") echo "g++ $GCC_CILK_FLAG $SERIAL_CFLAGS";;
+	*) echo "Unknown compiler $1"; exit 1;;
+    esac
+}
+
+CILKFLAG() {
+    case $1 in
+	"tapir") echo "$TAPIR_CILK_FLAG";;
+	"ref") echo "$REF_CILK_FLAG";;
+	"stapir") echo "$TAPIR_CILK_FLAG $SERIAL_CFLAGS";;
+	"sref") echo "$REF_CILK_FLAG $SERIAL_CFLAGS";;
+	"serial") echo "$SERIAL_CFLAGS";;
+	"gcc") echo "$GCC_CILK_FLAG";;
+	"sgcc") echo "$GCC_CILK_FLAG $SERIAL_CFLAGS";;
 	*) echo "Unknown compiler $1"; exit 1;;
     esac
 }

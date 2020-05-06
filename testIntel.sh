@@ -13,6 +13,7 @@ RaceDetectTest() {
     make clean
     (CC=$(C_COMPILER $Compiler) \
        CXX=$(CXX_COMPILER $Compiler) \
+       CILKFLAG=$(CILKFLAG $Compiler) \
        EXTRA_CFLAGS="$CILKSAN_CFLAGS" \
        EXTRA_CXXFLAGS="$CILKSAN_CFLAGS" \
        EXTRA_LDFLAGS="$CILKSAN_LDFLAGS" \
@@ -32,6 +33,7 @@ ScalabilityTest() {
     make clean
     (CC=$(C_COMPILER $Compiler) \
        CXX=$(CXX_COMPILER $Compiler) \
+       CILKFLAG=$(CILKFLAG $Compiler) \
        EXTRA_CFLAGS="$CILKSCALE_CFLAGS" \
        EXTRA_CXXFLAGS="$CILKSCALE_CFLAGS" \
        EXTRA_LDFLAGS="$CILKSCALE_LDFLAGS" \
@@ -52,6 +54,7 @@ CompileAndRunTest() {
     rm -rf $Results
     (CC=$(C_COMPILER $Compiler) \
        CXX=$(CXX_COMPILER $Compiler) \
+       CILKFLAG=$(CILKFLAG $Compiler) \
        EXTRA_CFLAGS="$MY_EXTRA_CFLAGS $EXTRA_CFLAGS"\
        EXTRA_CXXFLAGS="$MY_EXTRA_CFLAGS $EXTRA_CXXFLAGS"\
        make run -B perf_num=1)
