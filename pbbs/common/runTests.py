@@ -4,25 +4,25 @@ import random
 import os
 
 def onPprocessors(command,p) :
-  if os.environ.has_key("OPENMP"):
+  if "OPENMP" in os.environ:
     os.putenv("OMP_NUM_THREADS", "%d" %p)
     return command  
-  elif os.environ.has_key("GCILK") or os.environ.has_key("CCILK") or os.environ.has_key("ICC"):
-    return "export CILK_NWORKERS="+`p`+"; " + command
-  elif os.environ.has_key("CILK"):
-    return command + " -cilk_set_worker_count " + `p`
-  elif os.environ.has_key("MKLROOT"):
-    return "export CILK_NWORKERS="+`p`+"; " + command
+  elif "GCILK" in os.environ or "CCILK" in os.environ or "ICC" in os.environ:
+    return "export CILK_NWORKERS="+str(p)+"; " + command
+  elif "CILK" in os.environ:
+    return command + " -cilk_set_worker_count " + str(p)
+  elif "MKLROOT" in os.environ:
+    return "export CILK_NWORKERS="+str(p)+"; " + command
   return command
   
-def shellGetOutput(str) :
-  process = subprocess.Popen(str,shell=True,stdout=subprocess.PIPE,
+def shellGetOutput(cmd) :
+  process = subprocess.Popen(cmd,shell=True,stdout=subprocess.PIPE,
                              stderr=subprocess.PIPE)
   output, err = process.communicate()
   
   if (len(err) > 0):
-      raise NameError(str+"\n"+output+err)
-  return output
+      raise NameError(cmd+"\n"+output.decode("utf-8")+err.decode("utf-8"))
+  return output.decode("utf-8")
 
 def stripFloat(val) :
   trunc = float(int(val*1000))/1000
@@ -32,6 +32,7 @@ def runSingle(runProgram, options, ifile, procs) :
   comString = "./"+runProgram+" "+options+" "+ifile
   if (procs > 0) :
     comString = onPprocessors(comString,procs)
+  #print(comString)
   out = shellGetOutput(comString)
   #print(out)
   try:
@@ -43,7 +44,7 @@ def runSingle(runProgram, options, ifile, procs) :
 def runTest(runProgram, checkProgram, dataDir, test, rounds, procs, noOutput) :
     random.seed()
     tmpdir="/tmp"
-    if os.environ.has_key("TMPDIR"):
+    if "TMPDIR" in os.environ:
       tmpdir = os.getenv("TMPDIR")
     outFile="%s/ofile%d_%d" %(tmpdir, random.randint(0, 1000000), random.randint(0, 1000000))
     [weight, inputFileNames, runOptions, checkOptions] = test
@@ -53,7 +54,7 @@ def runTest(runProgram, checkProgram, dataDir, test, rounds, procs, noOutput) :
     if len(dataDir)>0:
       out = shellGetOutput("cd " + dataDir + "; make " + shortInputNames)
     longInputNames = " ".join(dataDir + "/" + name for name in inputFileNames)
-    runOptions = runOptions + " -r " + `rounds`
+    runOptions = runOptions + " -r " + str(rounds)
     if (noOutput == 0) :
       runOptions = runOptions + " -o " + outFile
     times = runSingle(runProgram, runOptions, longInputNames, procs)
@@ -72,7 +73,7 @@ def runTest(runProgram, checkProgram, dataDir, test, rounds, procs, noOutput) :
     outputStr = ""
     if (len(runOptions) > 0) :
       outputStr = " : " + runOptions
-    print(`weight` + " : " + shortInputNames + outputStr + " : "
+    print(str(weight) + " : " + shortInputNames + outputStr + " : "
           + ptimes)
     return [weight,times]
     
@@ -101,10 +102,10 @@ def timeAll(name, runProgram, checkProgram, dataDir, tests, rounds, procs, noOut
       times = sorted(times)
       totalTimeMean = totalTimeMean + weight*sum(times)/l
       totalTimeMin = totalTimeMin + weight*times[0]
-      totalTimeMedian = totalTimeMedian + weight*times[(l-1)/2]
+      totalTimeMedian = totalTimeMedian + weight*times[(l-1)//2]
       totalWeight = totalWeight + weight
       j += 1
-    print(name + " : " + `procs` +" : " +
+    print(name + " : " + str(procs) +" : " +
           "weighted time, min=" + stripFloat(totalTimeMin/totalWeight) +
           " median=" + stripFloat(totalTimeMedian/totalWeight) +
           " mean=" + stripFloat(totalTimeMean/totalWeight))
@@ -116,9 +117,9 @@ def timeAll(name, runProgram, checkProgram, dataDir, tests, rounds, procs, noOut
         print("Could not insert result in database. Error:", sys.exc_info()[0])
 #        if (os.getlogin() == 'akyrola'):  raise
     return 0
-  except NameError,v:
-    x, = v
-    print "TEST TERMINATED ABNORMALLY:\n["+x + "]"
+  except NameError as v:
+    x, = v.args
+    print("TEST TERMINATED ABNORMALLY:\n["+x + "]")
     return 1
   except KeyboardInterrupt:
     return 1
@@ -243,7 +244,7 @@ def getHostId():
     
     (sysname, nodename, release, version, machine) = os.uname()
     
-    if (os.environ.has_key("OPENMP")):
+    if "OPENMP" in os.environ:
        nodename = nodename + "[OPENMP]"
     
     cursor.execute("select id from pbbs_hosts where hostname=%s and procmodel=%s and version=%s and numprocs=%s", (nodename, procmodel, version, numprocs))
@@ -279,7 +280,7 @@ def detectCPUs():
      """
     # Linux, Unix and MacOS:
     if hasattr(os, "sysconf"):
-       if os.sysconf_names.has_key("SC_NPROCESSORS_ONLN"):
+       if "SC_NPROCESSORS_ONLN" in os.sysconf_names:
            # Linux & Unix:
            ncpus = os.sysconf("SC_NPROCESSORS_ONLN")
            if isinstance(ncpus, int) and ncpus > 0:
@@ -287,7 +288,7 @@ def detectCPUs():
        else: # OSX:
            return int(os.popen2("sysctl -n hw.ncpu")[1].read())
     # Windows:
-    if os.environ.has_key("NUMBER_OF_PROCESSORS"):
+    if "NUMBER_OF_PROCESSORS" in os.environ:
            ncpus = int(os.environ["NUMBER_OF_PROCESSORS"]);
            if ncpus > 0:
                return ncpus
