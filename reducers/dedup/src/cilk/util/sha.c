@@ -1,4 +1,5 @@
-#include "../../openssl/sha.h"
+/* #include "../../openssl/sha.h" */
+#include <openssl/sha.h>
 
 #define SHA_1
 #include "../../openssl/sha_locl.h"
