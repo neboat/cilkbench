@@ -101,6 +101,8 @@ RUN_ON_P_WORKERS() {
     P=$1
     # echo "CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2"
     # CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2
-    echo "CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2"
-    CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2
+    # echo "CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2"
+    # CILK_NWORKERS=$P setarch x86_64 -R taskset -c 1-$P numactl -i all ionice -c 2 -n 0 $2
+    echo "CILK_NWORKERS=$P setarch `uname -m` -R taskset -c 0-$(expr $P - 1) numactl -i all ionice -c 2 -n 0 $2"
+    CILK_NWORKERS=$P setarch `uname -m` -R taskset -c 0-$(expr $P - 1) numactl -i all ionice -c 2 -n 0 $2
 }
