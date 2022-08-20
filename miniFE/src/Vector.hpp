@@ -32,7 +32,10 @@
 #include <vector>
 
 #include <cilk/cilk.h>
-#include <cilk/reducer_opadd.h>
+
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
 
 namespace miniFE {
 

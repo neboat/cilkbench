@@ -40,6 +40,10 @@
 #include "cilksan.h"
 #endif
 
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
+
 unsigned long long todval (struct timeval *tp) {
     return tp->tv_sec * 1000 * 1000 + tp->tv_usec;
 }
@@ -459,7 +463,7 @@ void OptimizedStrassenMultiply(REAL *C, REAL *A, REAL *B,
     unsigned RowWidthA, unsigned RowWidthB) {
 
   unsigned QuadrantSize = MatrixSize >> 1; /* MatixSize / 2 */
-  unsigned QuadrantSizeInBytes = 
+  unsigned QuadrantSizeInBytes =
     sizeof(REAL) * QuadrantSize * QuadrantSize + 32;
   unsigned Column, Row;
 

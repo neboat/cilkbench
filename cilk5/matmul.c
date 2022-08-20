@@ -36,6 +36,10 @@
 #include <sys/time.h>
 #include "getoptions.h"
 
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
+
 unsigned long long todval (struct timeval *tp) {
     return tp->tv_sec * 1000 * 1000 + tp->tv_usec;
 }

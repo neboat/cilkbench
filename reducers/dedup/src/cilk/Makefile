@@ -38,7 +38,8 @@ LIBS += -lz
 # added to CFLAGS.  (CFLAGS seems to be deferred initialization by
 # default...)
 CPPFLAGS := $(CFLAGS)  
-CPPFLAGS += -std=c++0x $(EXTRA_CXXFLAGS) $(EXTRA_CFLAGS)
+# CPPFLAGS += -std=c++0x $(EXTRA_CXXFLAGS) $(EXTRA_CFLAGS)
+CPPFLAGS += -std=c++17 $(EXTRA_CXXFLAGS) $(EXTRA_CFLAGS)
 CFLAGS += -std=gnu99 $(EXTRA_CFLAGS) # -pedantic
 
 $(warning "CPPFLAGS is $(CPPFLAGS),  CFLAGS is $(CFLAGS)")

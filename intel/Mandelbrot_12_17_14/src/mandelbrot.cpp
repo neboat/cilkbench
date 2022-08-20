@@ -23,6 +23,10 @@
 
 #include <cilk/cilk_api.h>
 
+#ifndef USE_ALIGNED_ALLOC
+#define USE_ALIGNED_ALLOC true
+#endif
+
 // Description:
 // Determines how deeply points in the complex plane, spaced on a uniform grid, remain in the Mandelbrot set.
 // The uniform grid is specified by the rectangle (x1, y1) - (x0, y0).
@@ -36,8 +40,11 @@ unsigned char* cilk_mandelbrot(double x0, double y0, double x1, double y1,
                                int width, int height, int max_depth) {
   double xstep = (x1 - x0) / width;
   double ystep = (y1 - y0) / height;
+#if !USE_ALIGNED_ALLOC
   unsigned char* output = static_cast<unsigned char*>(_mm_malloc(width * height * sizeof(unsigned char), 64));
-  //unsigned char *output = static_cast<unsigned char *>(aligned_alloc(64, width * height * sizeof(unsigned char)));
+#else
+  unsigned char *output = static_cast<unsigned char *>(aligned_alloc(64, width * height * sizeof(unsigned char)));
+#endif
   // Traverse the sample space in equally spaced steps with width * height samples
   cilk_for(int j = 0; j < height; ++j) {
     cilk_for (int i = 0; i < width; ++i) {

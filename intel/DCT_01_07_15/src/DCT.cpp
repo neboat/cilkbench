@@ -261,7 +261,8 @@ int read_process_write(char* input, char *output, int choice) {
 	//Size of the image in terms of number of pixels
 	int size_of_image = hp->width * hp->height;
     //Allocate memory for loading the bitmap data of the input image
-    indata = (rgb *)_mm_malloc((sizeof(rgb)*(size_of_image)), ALIGNMENT);
+    // indata = (rgb *)_mm_malloc((sizeof(rgb)*(size_of_image)), ALIGNMENT);
+	indata = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*(size_of_image)));
     if(indata==NULL){
         cout<<"Unable to allocate the memory for bitmap date\n";
         return 0;
@@ -278,7 +279,8 @@ int read_process_write(char* input, char *output, int choice) {
     }
 	
 	//Allocate memory for storing the bitmap data of the processed image
-    outdata = (rgb *)_mm_malloc((sizeof(rgb)*(size_of_image)), ALIGNMENT);
+    // outdata = (rgb *)_mm_malloc((sizeof(rgb)*(size_of_image)), ALIGNMENT);
+    outdata = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*(size_of_image)));
     if(outdata==NULL){
         cout<<"Unable to allocate the memory for bitmap date\n";
         return 0;
@@ -374,8 +376,10 @@ int read_process_write(char* input, char *output, int choice) {
     fclose(fp);
     fclose(out);
     free(hp);
-    _mm_free(indata);
-    _mm_free(outdata);
+    // _mm_free(indata);
+    // _mm_free(outdata);
+    free(indata);
+    free(outdata);
     return 0;
 }
 

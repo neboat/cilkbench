@@ -35,6 +35,9 @@
 #include "cilksan.h"
 #endif
 
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
 
 // Sort the range between bidirectional iterators begin and end.
 // end is one past the final element in the range.

@@ -38,9 +38,17 @@ int main(int argc, char* argv[]) {
 	double y0 = -0.875;
 	double x1 = 1;
 	double y1 = 0.875;
+#ifdef SMALL_INPUT
+	int height = 1024; // 1024;
+#else
 	int height = 10240;
+#endif
 	// Width should be a multiple of 8
+#ifdef SMALL_INPUT
+	int width = 2048; // 2048;
+#else
 	int width = 20480;
+#endif
 	assert(width%8==0);
 	int max_depth = 100;
 
@@ -49,11 +57,11 @@ int main(int argc, char* argv[]) {
 	CUtilTimer timer;
 	double serial_time, vec_time, cilk_time, cilk_vec_time;
 
-	// Load up the Intel(R) Cilk(TM) Plus runtime to to get accurate performance numbers
-	double g = 2.0;
-	cilk_for (int i = 0; i < 100; i++) {
-		g /= sin(g);
-	}
+	// // Load up the Intel(R) Cilk(TM) Plus runtime to to get accurate performance numbers
+	// double g = 2.0;
+	// cilk_for (int i = 0; i < 100; i++) {
+	// 	g /= sin(g);
+	// }
 
 	io::BMPImage image(width, height, 8);
 	unsigned char* output;

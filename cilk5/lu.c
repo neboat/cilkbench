@@ -37,6 +37,10 @@ unsigned long long todval (struct timeval *tp) {
 #include "cilksan.h"
 #endif
 
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
+
 
 /* Define the size of a block. */
 #ifndef BLOCK_SIZE

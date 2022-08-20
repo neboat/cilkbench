@@ -20,17 +20,28 @@
 #include <cilk/cilk.h>
 #include <xmmintrin.h>
 
+#ifndef USE_ALIGNED_ALLOC
+#define USE_ALIGNED_ALLOC true
+#endif
+
 // Print helper function
 void print_average(float *CallResult, float *PutResult, double time);
 
 int main(int argc, char* argv[])
 {
-	float *CallResult = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
+#if !USE_ALIGNED_ALLOC
+  float *CallResult = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
 	float *PutResult  = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
 	float *StockPrice    = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
 	float *OptionStrike  = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
 	float *OptionYears   = (float *)_mm_malloc(c_num_options*sizeof(float), 32);
-
+#else
+	float *CallResult = static_cast<float *>(aligned_alloc(32, c_num_options*sizeof(float)));
+	float *PutResult  = static_cast<float *>(aligned_alloc(32, c_num_options*sizeof(float)));
+	float *StockPrice    = static_cast<float *>(aligned_alloc(32, c_num_options*sizeof(float)));
+	float *OptionStrike  = static_cast<float *>(aligned_alloc(32, c_num_options*sizeof(float)));
+	float *OptionYears   = static_cast<float *>(aligned_alloc(32, c_num_options*sizeof(float)));
+#endif
 	// Randomly initialize variables within specified bounds
 	srand(5); 
 	for(int i = 0; i<c_num_options; ++i) {
@@ -57,13 +68,19 @@ int main(int argc, char* argv[])
 		black_scholes_cilk(StockPrice, OptionStrike, OptionYears, CallResult, PutResult);
 		timer.stop();
 		print_average(CallResult, PutResult, timer.get_time());
-	
+#if !USE_ALIGNED_ALLOC
 	_mm_free(CallResult);
 	_mm_free(PutResult);
 	_mm_free(StockPrice);
 	_mm_free(OptionStrike);
 	_mm_free(OptionYears);
-	
+#else
+	free(CallResult);
+	free(PutResult);
+	free(StockPrice);
+	free(OptionStrike);
+	free(OptionYears);
+#endif
 #ifdef _WIN32
     system("PAUSE");
 #endif

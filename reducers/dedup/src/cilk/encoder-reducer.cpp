@@ -33,7 +33,11 @@
 
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
+#ifdef OLD_REDUCERS
 #include <cilk/reducer_ostream.h>
+#else
+#include <cilk/ostream_reducer.h>
+#endif // OLD_REDUCERS
 
 #include "cilkpub_report_time.h"
 
@@ -117,6 +121,9 @@ static int keys_equal_fn( void *key1, void *key2 ) {
     return (memcmp(key1, key2, SHA1_LEN) == 0);
 }
 
+// #ifndef OLD_REDUCERS
+// using out_reducer = cilk::ostream_reducer<char>;
+// #endif // OLD_REDUCERS
 // Arguments 
 typedef struct file_info {
     // src file descriptor, first pipeline stage only
@@ -124,7 +131,12 @@ typedef struct file_info {
     // output file descriptor, first pipeline stage only
     int fd_out;
     // output file stream
+#ifdef OLD_REDUCERS
     cilk::reducer_ostream *f_out_reducer;
+#else
+    cilk::ostream_reducer<char> *f_out_reducer;
+    // out_reducer *f_out_reducer;
+#endif
     // input file buffer, first pipeline stage & preloading only
     unsigned char *buffer; // holds the content from input file
     size_t buf_seek;  // where we are reading in the buffer
@@ -477,7 +489,11 @@ void *SerialIntegratedPipeline(file_info_t *const args) {
     // if (write_header(args->fd_out, conf->compress_type)) {
     //     EXIT_TRACE("Cannot write output file header.\n");
     // }
+#ifdef OLD_REDUCERS
     if (ostream_header(args->f_out_reducer->get_reference(), conf->compress_type)) {
+#else
+    if (ostream_header(*&*args->f_out_reducer, conf->compress_type)) {
+#endif // OLD_REDUCERS
         EXIT_TRACE("Cannot write output file header.\n");
     }
 
@@ -544,7 +560,11 @@ void *SerialIntegratedPipeline(file_info_t *const args) {
           /*     begin = end; */
           /* }) */
           // write_chunk_to_file(args->fd_out, chunk);
+#ifdef OLD_REDUCERS
           write_chunk_to_file(args->f_out_reducer->get_reference(), chunk);
+#else
+          write_chunk_to_file(*&*args->f_out_reducer, chunk);
+#endif
           /* WHEN_TIMING({ */
           /*     end = ktiming_getmark();  */
           /*     write_time += ktiming_diff_usec(&begin, &end); */
@@ -660,8 +680,17 @@ void Encode(config_t * _conf) {
         EXIT_TRACE("%s output file open error %s\n", conf->outfile, 
                    strerror(errno));
     }
+#ifdef OLD_REDUCERS
     args.f_out_reducer = new cilk::reducer_ostream(std::ostream(&fb));
-    
+#else
+    args.f_out_reducer = new cilk::ostream_reducer<char>(std::ostream(&fb));
+    // args.f_out_reducer = new out_reducer(std::ostream(&fb));
+    __cilkrts_reducer_register
+      (args.f_out_reducer, sizeof(*args.f_out_reducer),
+       &cilk::ostream_view<char, std::char_traits<char>>::identity,
+       &cilk::ostream_view<char, std::char_traits<char>>::reduce);
+#endif
+
     begin = ktiming_getmark();
 
     // Sanity check
@@ -746,6 +775,10 @@ void Encode(config_t * _conf) {
     stats.total_output = filestat.st_size;
     // Analyze and print statistics
     if(conf->verbose) print_stats(&stats);
-#endif 
+#endif
+#ifndef OLD_REDUCERS
+    __cilkrts_reducer_unregister(args.f_out_reducer);
+    delete args.f_out_reducer;
+#endif // OLD_REDUCERS
 }
 

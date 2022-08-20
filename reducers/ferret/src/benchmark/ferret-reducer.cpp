@@ -33,11 +33,21 @@ Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 #include <cilk/cilk.h>
 #include <cilk/cilk_api.h>
+#ifdef OLD_REDUCERS
 #include <cilk/reducer_ostream.h>
+#else
+#include <cilk/ostream_reducer.h>
+#endif // OLD_REDUCERS
 
 /* static FILE *fout; */
 std::ostream *fout;
-cilk::reducer_ostream *fout_reducer;
+#ifdef OLD_REDUCERS
+cilk::reducer<cilk::op_ostream> *fout_reducer;
+#else
+cilk::ostream_reducer<char> *fout_reducer;
+// using out_reducer = cilk::ostream_reducer<char>;
+// out_reducer *fout_reducer;
+#endif // OLD_REDUCERS
 
 static int top_K = 10;
 static const char *extra_params = "-L 8 - T 20";
@@ -166,7 +176,11 @@ static void do_query(const char *name) {
 	int width, height, nrgn;
 	int r;
 
+#ifdef OLD_REDUCERS
+        **fout_reducer << name;
+#else
         *fout_reducer << name;
+#endif
 
     // this is the first (serial) stage in TBB
 	r = image_read_rgb_hsv(name, &width, &height, &RGB, &HSV);
@@ -238,10 +252,18 @@ static void do_query(const char *name) {
 		cass_map_id_to_dataobj(query_table->map, p.id, &obj);
 		assert(obj != NULL);
 		// fprintf(fout, "\t%s:%g", obj, p.dist);
+#ifdef OLD_REDUCERS
+                **fout_reducer << "\t" << obj << ":" << p.dist;
+#else
                 *fout_reducer << "\t" << obj << ":" << p.dist;
+#endif
 	} ARRAY_END_FOREACH;
 	// fprintf(fout, "\n");
+#ifdef OLD_REDUCERS
+        **fout_reducer << std::endl;
+#else
         *fout_reducer << std::endl;
+#endif
 
 	cass_result_free(&result);
 }
@@ -274,7 +296,16 @@ int main(int argc, char *argv[]) {
         std::filebuf fb;
         fb.open(output_path, std::ios::out);
         fout = new std::ostream(&fb);
-        fout_reducer = new cilk::reducer_ostream(*fout);
+#ifdef OLD_REDUCERS
+        fout_reducer = new cilk::reducer<cilk::op_ostream>(*fout);
+#else
+        fout_reducer = new cilk::ostream_reducer<char>(*fout);
+        // fout_reducer = new out_reducer(*fout);
+	__cilkrts_reducer_register
+	  (fout_reducer, sizeof(*fout_reducer),
+	   &cilk::ostream_view<char, std::char_traits<char>>::identity,
+	   &cilk::ostream_view<char, std::char_traits<char>>::reduce);
+#endif // OLD_REDUCERS
 
 	cass_init();
 
@@ -313,6 +344,10 @@ int main(int argc, char *argv[]) {
 	cass_cleanup();
 	image_cleanup();
 	// fclose(fout);
+#ifndef OLD_REDUCERS
+	__cilkrts_reducer_unregister(fout_reducer);
+	delete fout_reducer;
+#endif // OLD_REDUCERS
         fb.close();
 
 	return 0;

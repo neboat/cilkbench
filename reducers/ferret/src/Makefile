@@ -90,12 +90,12 @@ $(OBJDIR)/%.o: %.cpp
 
 $(tools_tgt): $(BINDIR)/% : $(OBJDIR)/%.o $(LIBDIR)/libcass.a
 	@echo "   '$(CXX) $<' ==> '$@'"
-	@$(CXX) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CXX) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 $(image_tgt): $(BINDIR)/% : $(OBJDIR)/%.o $(LIBDIR)/libcass.a $(LIBDIR)/libcassimage.a
 	@echo "   '$(CXX) $<' ==> '$@'"
-	@$(CXX) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CXX) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
 
 $(BINDIR)/%: $(OBJDIR)/%.o $(LIBDIR)/libcass.a $(LIBDIR)/libcassimage.a
 	@echo "   '$(CC) $(CFLAGS) $(LDFLAGS) $(LDLIBS) $<' ==> '$@'"
-	@$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)
+	$(CC) $(CFLAGS) $(LDFLAGS) $^ -o $@ $(LDLIBS)

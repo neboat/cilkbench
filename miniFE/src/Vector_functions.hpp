@@ -45,7 +45,16 @@
 #include <Vector.hpp>
 
 #include <cilk/cilk.h>
+
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
+
+#ifdef CILKPLUS
 #include <cilk/reducer_opadd.h>
+#else
+#include <cilk/opadd_reducer.h>
+#endif
 
 namespace miniFE {
 
@@ -267,19 +276,31 @@ typename TypeTraits<typename Vector::ScalarType>::magnitude_type
   const Scalar* xcoefs = &x.coefs[0];
   const Scalar* ycoefs = &y.coefs[0];
   //magnitude result = 0;
-  cilk::reducer_opadd<Scalar> result_reducer;
+#ifdef CILKPLUS
+  cilk::reducer_opadd<Scalar> result_reducer(0);
+#else
+  cilk::opadd_reducer<Scalar> result_reducer = 0;
+#endif
 
   cilk_for(int i=0; i<n; ++i) {
     result_reducer += xcoefs[i]*ycoefs[i];
   }
 
 #ifdef HAVE_MPI
+#ifdef CILKPLUS
   magnitude local_dot = result_reducer.get_value(), global_dot = 0;
+#else
+  magnitude local_dot = result_reducer, global_dot = 0;
+#endif
   MPI_Datatype mpi_dtype = TypeTraits<magnitude>::mpi_type();  
   MPI_Allreduce(&local_dot, &global_dot, 1, mpi_dtype, MPI_SUM, MPI_COMM_WORLD);
   return global_dot;
 #else
+#ifdef CILKPLUS
   return result_reducer.get_value();
+#else
+  return result_reducer;
+#endif // CILKPLUS
 #endif
 }
 
@@ -300,19 +321,31 @@ typename TypeTraits<typename Vector::ScalarType>::magnitude_type
   typedef typename TypeTraits<typename Vector::ScalarType>::magnitude_type magnitude;
 
   const Scalar* xcoefs = &x.coefs[0];
-  cilk::reducer_opadd<Scalar> result_reducer;
+#ifdef CILKPLUS
+  cilk::reducer_opadd<Scalar> result_reducer(0);
+#else
+  cilk::opadd_reducer<Scalar> result_reducer = 0;
+#endif
 
   cilk_for(int i=0; i<n; ++i) {
     result_reducer += xcoefs[i] * xcoefs[i];
   }
 
 #ifdef HAVE_MPI
+#ifdef CILKPLUS
   magnitude local_dot = result_reducer.get_value(), global_dot = 0;
+#else
+  magnitude local_dot = result_reducer, global_dot = 0;
+#endif
   MPI_Datatype mpi_dtype = TypeTraits<magnitude>::mpi_type();  
   MPI_Allreduce(&local_dot, &global_dot, 1, mpi_dtype, MPI_SUM, MPI_COMM_WORLD);
   return global_dot;
 #else
+#ifdef CILKPLUS
   return result_reducer.get_value();
+#else
+  return result_reducer;
+#endif
 #endif
 }
 

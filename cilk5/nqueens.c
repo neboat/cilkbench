@@ -2,11 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include <sys/time.h>
+#include <stdint.h>
 
 #include <cilk/cilk.h>
 
 #if CILKSAN
 #include "cilksan.h"
+#endif
+
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
 #endif
 
 unsigned long long todval (struct timeval *tp) {
@@ -73,7 +78,9 @@ int nqueens (int n, int j, char *a) {
      * alloca is only used in this iteration; later spawns don't 
      * need to be able to access copies of b from previous iterations 
      ***/
-    b = (char *) alloca((j + 1) * sizeof (char));
+    /* b = (char *) alloca((j + 1) * sizeof (char)); */
+    char *b_alloc = (char *) alloca((j + 1) * sizeof (char) + 31);
+    b = (char*)(((uintptr_t)b_alloc + 31) & ~31);
     memcpy(b, a, j * sizeof (char));
     b[j] = i;
 
@@ -83,7 +90,7 @@ int nqueens (int n, int j, char *a) {
   }
   cilk_sync;
 
-  //#pragma clang loop vectorize(disable)
+  // #pragma clang loop vectorize(disable)
   for(i = 0; i < n; i++) {
     solNum += count[i];
   }

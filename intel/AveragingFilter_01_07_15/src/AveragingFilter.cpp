@@ -124,6 +124,9 @@ using namespace std;
 //     return;
 // }
 
+#ifndef USE_ALIGNED_ALLOC
+#define USE_ALIGNED_ALLOC true
+#endif
 
 void process_image_cilk_for(rgb *indataset ALIGN, rgb *outdataset ALIGN, int w, int h){
 	int extra = 1;
@@ -134,11 +137,17 @@ void process_image_cilk_for(rgb *indataset ALIGN, rgb *outdataset ALIGN, int w, 
 	int filter_row_size = 3;
 	rgb *__restrict filter_interim_sum_rgb ALIGN;
 	rgb *__restrict resized_indataset ALIGN, *__restrict resized_outdataset ALIGN;
+#if !USE_ALIGNED_ALLOC
 	resized_indataset = (rgb *)_mm_malloc((sizeof(rgb)*resized_width*resized_height), ALIGNMENT);
-	// resized_indataset = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*resized_width*resized_height));
+#else
+	resized_indataset = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*resized_width*resized_height));
+#endif
 	memset(resized_indataset, 0, (sizeof(rgb)*resized_width*resized_height));
+#if !USE_ALIGNED_ALLOC
 	resized_outdataset = (rgb *)_mm_malloc((sizeof(rgb)*resized_width*resized_height), ALIGNMENT);
-	// resized_outdataset = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*resized_width*resized_height));
+#else
+	resized_outdataset = (rgb *)aligned_alloc(ALIGNMENT, (sizeof(rgb)*resized_width*resized_height));
+#endif
 	memset(resized_outdataset, 0, (sizeof(rgb)*resized_width*resized_height));
 	for(int i = 0; i < h; i++)
 		memcpy((&resized_indataset[((i+1)*resized_width)+1].blue), &indataset[i*w].blue, (w*sizeof(rgb)));
@@ -168,10 +177,13 @@ void process_image_cilk_for(rgb *indataset ALIGN, rgb *outdataset ALIGN, int w, 
 	for(int i = 0; i < h; i++)
 			memcpy(&outdataset[i*w].blue, (&resized_outdataset[((i+1)*resized_width)+1].blue), (w*sizeof(rgb)));
 
+#if !USE_ALIGNED_ALLOC
 	_mm_free(resized_outdataset);
 	_mm_free(resized_indataset);
-	// free(resized_outdataset);
-	// free(resized_indataset);
+#else
+	free(resized_outdataset);
+	free(resized_indataset);
+#endif
     return;
 }
 

@@ -39,6 +39,10 @@ extern int errno;
 #include "cilksan.h"
 #endif
 
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
+
 /* Define ERROR_SUMMARY if you want to check your numerical results */
 #undef ERROR_SUMMARY
 

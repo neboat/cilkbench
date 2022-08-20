@@ -143,6 +143,7 @@ int main(int argc, char** argv) {
   miniFE::timer_type total_time = miniFE::mytimer() - start_time;
 
   if (myproc == 0) {
+    std::cout << "Total Program Time " << total_time << "\n";
     doc.add("Total Program Time",total_time);
     doc.generateYAML();
   }

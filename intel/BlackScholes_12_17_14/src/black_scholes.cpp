@@ -49,29 +49,29 @@ void black_scholes_serial(float *StockPrice, float *OptionStrike, float *OptionY
 // Calculates for all options, and also simulates manipulation for c_num_iterations
 // Code is parallelized with cilk_for and is vectorized with the autovectorizer
 void black_scholes_cilk(float *StockPrice, float *OptionStrike, float *OptionYears, float *CallResult, float *PutResult) {
-	cilk_for(int i = 0; i < c_num_iterations; i++) {
-		// needs dummy command to prevent the compiler from completely optimizing out the c_num_iterations loop
-		CallResult[0] = 0;
-	    cilk_for(int option = 0; option < c_num_options; ++option) {
-			float T = OptionYears[option];
-			float X = OptionStrike[option];
-			float S = StockPrice[option];
-			float sqrtT = sqrtf(T);
-			float d1 = (logf(S / X) + (c_riskfree + c_half * c_volatility * c_volatility) * T) / (c_volatility * sqrtT);
-			float d2 = d1 - c_volatility * sqrtT;
+  for(int i = 0; i < c_num_iterations; i++) {
+    // needs dummy command to prevent the compiler from completely optimizing out the c_num_iterations loop
+    CallResult[0] = 0;
+    cilk_for(int option = 0; option < c_num_options; ++option) {
+      float T = OptionYears[option];
+      float X = OptionStrike[option];
+      float S = StockPrice[option];
+      float sqrtT = sqrtf(T);
+      float d1 = (logf(S / X) + (c_riskfree + c_half * c_volatility * c_volatility) * T) / (c_volatility * sqrtT);
+      float d2 = d1 - c_volatility * sqrtT;
 #ifdef _WIN32
-			float CNDD1 = CND(d1);
-			float CNDD2 = CND(d2);
+      float CNDD1 = CND(d1);
+      float CNDD2 = CND(d2);
 #else			
-			float CNDD1 = c_half + c_half*erff(SQRT1_2*d1);
-			float CNDD2 = c_half + c_half*erff(SQRT1_2*d2);
+      float CNDD1 = c_half + c_half*erff(SQRT1_2*d1);
+      float CNDD2 = c_half + c_half*erff(SQRT1_2*d2);
 #endif
-			float expRT = expf(-c_riskfree * T);
+      float expRT = expf(-c_riskfree * T);
 
-			CallResult[option] = S * CNDD1 - X * expRT * CNDD2;
-			PutResult[option] = CallResult[option]  +  expRT - S;
-		}
-	}
+      CallResult[option] = S * CNDD1 - X * expRT * CNDD2;
+      PutResult[option] = CallResult[option]  +  expRT - S;
+    }
+  }
 }
 
 // Polynomial approximation of cumulative normal distribution function

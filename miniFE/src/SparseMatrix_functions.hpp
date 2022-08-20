@@ -45,7 +45,10 @@
 #include <mytimer.hpp>
 
 #include <cilk/cilk.h>
-#include <cilk/reducer_opadd.h>
+
+#ifdef SERIAL
+#include <cilk/cilk_stub.h>
+#endif
 
 #ifdef MINIFE_HAVE_TBB
 #include <LockingMatrix.hpp>
@@ -517,7 +520,11 @@ matvec_and_dot(MatrixType& A,
   ScalarType beta = 0;
 
   //magnitude result = 0;
+#ifdef CILKPLUS
   cilk::reducer_opadd<ScalarType> result_reducer;
+#else
+  cilk::opadd_reducer<ScalarType> result_reducer;
+#endif
 
   cilk_for(int row=0; row<n; row++) {
     ScalarType sum = beta*ycoefs[row];
@@ -531,12 +538,20 @@ matvec_and_dot(MatrixType& A,
   }
 
 #ifdef HAVE_MPI
+#ifdef CILKPLUS
   magnitude local_dot = result_reducer.get_value(), global_dot = 0;
+#else
+  magnitude local_dot = result_reducer, global_dot = 0;
+#endif
   MPI_Datatype mpi_dtype = TypeTraits<magnitude>::mpi_type();  
   MPI_Allreduce(&local_dot, &global_dot, 1, mpi_dtype, MPI_SUM, MPI_COMM_WORLD);
   return global_dot;
 #else
+#ifdef CILKPLUS
   return result_reducer.get_value();
+#else
+  return result_reducer;
+#endif // CILKPLUS
 #endif
 }
 

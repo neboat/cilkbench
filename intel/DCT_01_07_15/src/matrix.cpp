@@ -2,15 +2,18 @@
 
 #ifdef __INTEL_COMPILER
 	matrix_AN::matrix_AN(int size) {
-		ptr = (float *)_mm_malloc(sizeof(float)*size*size, ALIGNMENT);
+		// ptr = (float *)_mm_malloc(sizeof(float)*size*size, ALIGNMENT);
+	        ptr = (float *)aligned_alloc(ALIGNMENT, sizeof(float)*size*size);
 		memset(ptr, 0, sizeof(float)*size*size);
 		row_size = size;
 	}
 	matrix_AN::~matrix_AN(){
-		_mm_free(ptr);
+		// _mm_free(ptr);
+		free(ptr);
 	}
 	matrix_AN::matrix_AN(matrix_AN &m) {
-		ptr = (float *)_mm_malloc(sizeof(float)*m.row_size*m.row_size, ALIGNMENT);
+		// ptr = (float *)_mm_malloc(sizeof(float)*m.row_size*m.row_size, ALIGNMENT);
+	        ptr = (float *)aligned_alloc(ALIGNMENT, sizeof(float)*m.row_size*m.row_size);
 		memcpy(ptr, m.ptr, sizeof(float)*m.row_size*m.row_size);
 		row_size = m.row_size;
 	}	
@@ -104,12 +107,14 @@
 #endif
 
 	matrix_serial::matrix_serial(int size) {
-		ptr = (float *)_mm_malloc(sizeof(float)*size*size, ALIGNMENT);
+		// ptr = (float *)_mm_malloc(sizeof(float)*size*size, ALIGNMENT);
+	        ptr = (float *)aligned_alloc(ALIGNMENT, sizeof(float)*size*size);
 		memset(ptr, 0, sizeof(float)*size*size);
 		row_size = size;
 	}
 	matrix_serial::~matrix_serial(){
-		_mm_free(ptr);
+		// _mm_free(ptr);
+		free(ptr);
 	}
 
 	 void matrix_serial::create_identity(){
@@ -122,7 +127,8 @@
 	}
 
 	 matrix_serial::matrix_serial(matrix_serial &m) {
-		ptr = (float *)_mm_malloc(sizeof(float)*m.row_size*m.row_size, ALIGNMENT);
+		// ptr = (float *)_mm_malloc(sizeof(float)*m.row_size*m.row_size, ALIGNMENT);
+	        ptr = (float *)aligned_alloc(ALIGNMENT, sizeof(float)*m.row_size*m.row_size);
 		memcpy(ptr, m.ptr, sizeof(float)*m.row_size*m.row_size);
 		row_size = m.row_size;
 	}	

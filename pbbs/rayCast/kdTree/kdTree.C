@@ -187,11 +187,11 @@ treeNode* generateNode(Boxes boxes, Events events, BoundingBox B,
 
   // loop over dimensions and find the best cut across all of them
   cutInfo cuts[3];
-  // for (int d = 0; d < 3; d++) 
-  //   cuts[d] = cilk_spawn bestCut(events[d], B[d], B[(d+1)%3], B[(d+2)%3], n);
-  cuts[0] = cilk_spawn bestCut(events[0], B[0], B[(0+1)%3], B[(0+2)%3], n);
-  cuts[1] = cilk_spawn bestCut(events[1], B[1], B[(1+1)%3], B[(1+2)%3], n);
-  cuts[2] = cilk_spawn bestCut(events[2], B[2], B[(2+1)%3], B[(2+2)%3], n);
+  for (int d = 0; d < 3; d++) 
+    cuts[d] = cilk_spawn bestCut(events[d], B[d], B[(d+1)%3], B[(d+2)%3], n);
+  // cuts[0] = cilk_spawn bestCut(events[0], B[0], B[(0+1)%3], B[(0+2)%3], n);
+  // cuts[1] = cilk_spawn bestCut(events[1], B[1], B[(1+1)%3], B[(1+2)%3], n);
+  // cuts[2] = cilk_spawn bestCut(events[2], B[2], B[(2+1)%3], B[(2+2)%3], n);
   cilk_sync;
 
   int cutDim = 0;
@@ -224,11 +224,11 @@ treeNode* generateNode(Boxes boxes, Events events, BoundingBox B,
 
   // now split each event array to the two sides
   eventsPair X[3];
-  // for (int d = 0; d < 3; d++) 
-  //   X[d] = cilk_spawn splitEvents(cutDimRanges, events[d], cutOff, n);
-  X[0] = cilk_spawn splitEvents(cutDimRanges, events[0], cutOff, n);
-  X[1] = cilk_spawn splitEvents(cutDimRanges, events[1], cutOff, n);
-  X[2] = cilk_spawn splitEvents(cutDimRanges, events[2], cutOff, n);
+  for (int d = 0; d < 3; d++) 
+    X[d] = cilk_spawn splitEvents(cutDimRanges, events[d], cutOff, n);
+  // X[0] = cilk_spawn splitEvents(cutDimRanges, events[0], cutOff, n);
+  // X[1] = cilk_spawn splitEvents(cutDimRanges, events[1], cutOff, n);
+  // X[2] = cilk_spawn splitEvents(cutDimRanges, events[2], cutOff, n);
   cilk_sync;
 
   for (int d = 0; d < 3; d++) {

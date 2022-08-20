@@ -1,4 +1,4 @@
-ALL_TESTS = fft cholesky nqueens qsort rectmul strassen
+ALL_TESTS = fft cholesky nqueens qsort rectmul strassen cilksort heat lu matmul
 
 CC ?= gcc
 CXX ?= g++
@@ -6,16 +6,26 @@ CXX ?= g++
 CFLAGS = -Wall -O3 # -DPIR # -fcilkplus
 CXXFLAGS = -Wall -O3 # -DPIR # -fcilkplus
 LDFLAGS =
+LDLIBS = # -ltcmalloc
 
 ifeq ($(SERIAL),1)
-	SERIAL_FLAGS=-Dcilk_for=for -Dcilk_spawn= -Dcilk_sync= 
+	CILKFLAG ?=
+#       SERIAL_FLAGS=-Dcilk_for=for -Dcilk_spawn= -Dcilk_sync=
+	SERIAL_FLAGS = -DSERIAL
 	CFLAGS += $(SERIAL_FLAGS)
 	CXXFLAGS += $(SERIAL_FLAGS)
 endif
 
-CFLAGS += $(EXTRA_CFLAGS)
-CXXFLAGS += $(EXTRA_CXXFLAGS)
-LDFLAGS += $(EXTRA_LDFLAGS)
+ifeq ($(CILKPLUS),1)
+	CILKFLAG = -fcilkplus
+	LDFLAGS = -L/data/work/cilkrts/install/lib -Wl,-rpath,/data/work/cilkrts/install/lib
+else
+	CILKFLAG ?= -fopencilk
+endif
+
+CFLAGS += $(CILKFLAG) $(EXTRA_CFLAGS)
+CXXFLAGS += $(CILKFLAG) $(EXTRA_CFLAGS)
+LDFLAGS += $(CILKFLAG) $(EXTRA_LDFLAGS)
 LDLIBS += $(EXTRA_LDLIBS)
 
 .PHONY : default clean
@@ -47,6 +57,8 @@ loop-matmul: loop-matmul.o
 qsort: qsort.o
 
 fft cholesky : LDLIBS += -lm
+
+# qsort : CXXFLAGS += -falign-functions=32
 
 % : %.o
 	$(CXX) $(LDFLAGS) $^ $(LDLIBS) -o $@

@@ -10,6 +10,17 @@ MINIFE_MATRIX_TYPE = -DMINIFE_CSR_MATRIX
 
 #-----------------------------------------------------------------------
 
+ifeq ($(SERIAL),1)
+	EXTRA_CFLAGS += -DSERIAL
+	CILKFLAG =
+else ifeq ($(CILKPLUS),1)
+	EXTRA_CFLAGS += -DCILKPLUS -I/data/work/cilkrts/install/include
+	CILKFLAG ?= -fcilkplus
+	EXTRA_LDFLAGS += -L/data/work/cilkrts/install/lib -Wl,-rpath,/data/work/cilkrts/install/lib
+else
+	CILKFLAG ?= -fopencilk
+endif
+
 CFLAGS = -O2 -mavx $(CILKFLAG) $(EXTRA_CFLAGS)
 CXXFLAGS = $(CFLAGS)
 
